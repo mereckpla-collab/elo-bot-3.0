@@ -1,0 +1,3175 @@
+{
+  "guilds": {
+    "1538546373538877470": {
+      "channels": {
+        "init": "1538546614560366652",
+        "info_chat": "1538546615495696504",
+        "submit": "1538546616376754186",
+        "game_announcement": "1538546617223876708",
+        "bans": "1538546618100490260",
+        "queue": "1538546619073429626"
+      },
+      "categoryId": "1538546613503664288",
+      "adminRoleId": "1538546612463206550",
+      "queueMessage": {
+        "channelId": "1538546619073429626",
+        "messageId": "1538549249703411844"
+      },
+      "nextGameId": 1,
+      "players": {
+        "1280295562708521001": {
+          "userId": "1280295562708521001",
+          "name": "dosk",
+          "elo": 0,
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "gamesPlayed": 0,
+          "streak": 0,
+          "bestStreak": 0,
+          "worstStreak": 0,
+          "bestElo": 0,
+          "worstElo": 0,
+          "firstGamePlayed": false
+        },
+        "1538406788645392454": {
+          "userId": "1538406788645392454",
+          "name": "1538406788645392454",
+          "elo": 0,
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "gamesPlayed": 0,
+          "streak": 0,
+          "bestStreak": 0,
+          "worstStreak": 0,
+          "bestElo": 0,
+          "worstElo": 0,
+          "firstGamePlayed": false
+        }
+      },
+      "queue": [
+        {
+          "userId": "1538406788645392454",
+          "joinedAt": 1786888541095
+        },
+        {
+          "userId": "1280295562708521001",
+          "joinedAt": 1786888877783
+        }
+      ],
+      "games": {},
+      "bans": {}
+    },
+    "1538549402619088978": {
+      "channels": {
+        "init": "1550241244007899266",
+        "info_chat": "1550241248093282475",
+        "submit": "1550241251046068317",
+        "game_announcement": "1550241255810801775",
+        "bans": "1550241258403004437",
+        "anuncios": "1550241260663603220"
+      },
+      "categoryId": "1550241684930039908",
+      "adminRoleId": "1538549510442319952",
+      "queueMessage": null,
+      "nextGameId": 14,
+      "reusableGameIds": [],
+      "players": {},
+      "queue": [],
+      "games": {
+        "1": {
+          "id": 1,
+          "number": 1,
+          "status": "finished",
+          "modeKey": "4v4-solo",
+          "teamsCount": 2,
+          "playersPerTeam": 4,
+          "pickSystem": "classic",
+          "captains": [
+            "1280295562708521001",
+            "1500257357643649194"
+          ],
+          "teams": [
+            [
+              "1280295562708521001",
+              "1020772849906098186",
+              "411916947773587456",
+              "429457053791158281"
+            ],
+            [
+              "1500257357643649194",
+              "1020772849906098186",
+              "276060004262477825"
+            ]
+          ],
+          "remainingPlayers": [
+            "1538406788645392454",
+            "856824651119984651"
+          ],
+          "pickSequence": [
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "lastTeamIndex": 1,
+          "pickIndex": 5,
+          "currentCaptain": null,
+          "threadId": "1550244047980077126",
+          "pickDeadline": null,
+          "votes": {
+            "team1": [],
+            "team2": [],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1789677383891,
+          "captain1": "1280295562708521001",
+          "captain2": "1500257357643649194",
+          "team1": [
+            "1280295562708521001",
+            "1020772849906098186",
+            "411916947773587456",
+            "429457053791158281"
+          ],
+          "team2": [
+            "1500257357643649194",
+            "1020772849906098186",
+            "276060004262477825"
+          ],
+          "notifiedPickIndex": 4,
+          "resultMessage": {
+            "channelId": "1550244047980077126",
+            "messageId": "1550244140992958485"
+          },
+          "result": "team1",
+          "eloChanges": {
+            "1280295562708521001": {
+              "before": 50,
+              "after": 62,
+              "delta": 12,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 50,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1020772849906098186": {
+              "before": 12,
+              "after": 2,
+              "delta": -10,
+              "streakBefore": 1,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 12,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "411916947773587456": {
+              "before": 0,
+              "after": 12,
+              "delta": 12,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "429457053791158281": {
+              "before": 0,
+              "after": 12,
+              "delta": 12,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1500257357643649194": {
+              "before": 0,
+              "after": -10,
+              "delta": -10,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "276060004262477825": {
+              "before": 0,
+              "after": -10,
+              "delta": -10,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            }
+          }
+        },
+        "2": {
+          "id": 2,
+          "number": 2,
+          "status": "finished",
+          "modeKey": "4v4-solo",
+          "teamsCount": 2,
+          "playersPerTeam": 4,
+          "pickSystem": "classic",
+          "captains": [
+            "1280295562708521001",
+            "1500257357643649194"
+          ],
+          "teams": [
+            [
+              "1280295562708521001",
+              "1045757273919721522",
+              "856824651119984651",
+              "1538406788645392454"
+            ],
+            [
+              "1500257357643649194",
+              "276060004262477825",
+              "411916947773587456",
+              "429457053791158281"
+            ]
+          ],
+          "remainingPlayers": [],
+          "pickSequence": [
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "lastTeamIndex": 1,
+          "pickIndex": 5,
+          "currentCaptain": null,
+          "threadId": "1550244646007873576",
+          "pickDeadline": null,
+          "votes": {
+            "team1": [],
+            "team2": [],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1789677526309,
+          "captain1": "1280295562708521001",
+          "captain2": "1500257357643649194",
+          "team1": [
+            "1280295562708521001",
+            "1045757273919721522",
+            "856824651119984651",
+            "1538406788645392454"
+          ],
+          "team2": [
+            "1500257357643649194",
+            "276060004262477825",
+            "411916947773587456",
+            "429457053791158281"
+          ],
+          "notifiedPickIndex": 4,
+          "resultMessage": {
+            "channelId": "1550244646007873576",
+            "messageId": "1550244741541535778"
+          },
+          "result": "team1",
+          "eloChanges": {
+            "1280295562708521001": {
+              "before": 62,
+              "after": 76,
+              "delta": 14,
+              "streakBefore": 1,
+              "streakAfter": 2,
+              "snapshot": {
+                "elo": 62,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "1045757273919721522": {
+              "before": 0,
+              "after": 12,
+              "delta": 12,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "856824651119984651": {
+              "before": 0,
+              "after": 12,
+              "delta": 12,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1538406788645392454": {
+              "before": 0,
+              "after": 12,
+              "delta": 12,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1500257357643649194": {
+              "before": -10,
+              "after": -19,
+              "delta": -9,
+              "streakBefore": -1,
+              "streakAfter": -2,
+              "snapshot": {
+                "elo": -10,
+                "streak": -1,
+                "wins": 0,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "276060004262477825": {
+              "before": -10,
+              "after": -19,
+              "delta": -9,
+              "streakBefore": -1,
+              "streakAfter": -2,
+              "snapshot": {
+                "elo": -10,
+                "streak": -1,
+                "wins": 0,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "411916947773587456": {
+              "before": 12,
+              "after": 3,
+              "delta": -9,
+              "streakBefore": 1,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 12,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "429457053791158281": {
+              "before": 12,
+              "after": 3,
+              "delta": -9,
+              "streakBefore": 1,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 12,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            }
+          }
+        },
+        "3": {
+          "id": 3,
+          "number": 3,
+          "status": "finished",
+          "modeKey": "4v4-solo",
+          "teamsCount": 2,
+          "playersPerTeam": 4,
+          "pickSystem": "classic",
+          "captains": [
+            "1280295562708521001",
+            "1500257357643649194"
+          ],
+          "teams": [
+            [
+              "1280295562708521001",
+              "1538406788645392454",
+              "856824651119984651",
+              "1045757273919721522"
+            ],
+            [
+              "1500257357643649194",
+              "429457053791158281",
+              "411916947773587456",
+              "276060004262477825"
+            ]
+          ],
+          "remainingPlayers": [],
+          "pickSequence": [
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "lastTeamIndex": 1,
+          "pickIndex": 5,
+          "currentCaptain": null,
+          "threadId": "1551006815112790056",
+          "pickDeadline": null,
+          "votes": {
+            "team1": [],
+            "team2": [],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1789859241958,
+          "captain1": "1280295562708521001",
+          "captain2": "1500257357643649194",
+          "team1": [
+            "1280295562708521001",
+            "1538406788645392454",
+            "856824651119984651",
+            "1045757273919721522"
+          ],
+          "team2": [
+            "1500257357643649194",
+            "429457053791158281",
+            "411916947773587456",
+            "276060004262477825"
+          ],
+          "notifiedPickIndex": 4,
+          "resultMessage": {
+            "channelId": "1551006815112790056",
+            "messageId": "1551006877008265299"
+          },
+          "result": "team1",
+          "eloChanges": {
+            "1280295562708521001": {
+              "before": 0,
+              "after": 13,
+              "delta": 13,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1538406788645392454": {
+              "before": 0,
+              "after": 13,
+              "delta": 13,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "856824651119984651": {
+              "before": 0,
+              "after": 13,
+              "delta": 13,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1045757273919721522": {
+              "before": 0,
+              "after": 13,
+              "delta": 13,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1500257357643649194": {
+              "before": 0,
+              "after": -10,
+              "delta": -10,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "429457053791158281": {
+              "before": 0,
+              "after": -10,
+              "delta": -10,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "411916947773587456": {
+              "before": 0,
+              "after": -10,
+              "delta": -10,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "276060004262477825": {
+              "before": 0,
+              "after": -10,
+              "delta": -10,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            }
+          }
+        },
+        "4": {
+          "id": 4,
+          "number": 4,
+          "status": "finished",
+          "modeKey": "4v4-solo",
+          "teamsCount": 2,
+          "playersPerTeam": 4,
+          "pickSystem": "classic",
+          "captains": [
+            "411916947773587456",
+            "1020772849906098186"
+          ],
+          "teams": [
+            [
+              "411916947773587456"
+            ],
+            [
+              "1020772849906098186"
+            ]
+          ],
+          "remainingPlayers": [
+            "856824651119984651",
+            "1045757273919721522",
+            "1280295562708521001",
+            "276060004262477825",
+            "429457053791158281",
+            "1538406788645392454"
+          ],
+          "pickSequence": [
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "lastTeamIndex": 1,
+          "pickIndex": 0,
+          "currentCaptain": "411916947773587456",
+          "threadId": "1551007602316677120",
+          "pickDeadline": 1789859549849,
+          "votes": {
+            "team1": [],
+            "team2": [],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1789859429636,
+          "captain1": "411916947773587456",
+          "captain2": "1020772849906098186",
+          "team1": [
+            "411916947773587456"
+          ],
+          "team2": [
+            "1020772849906098186"
+          ],
+          "notifiedPickIndex": 0,
+          "result": "team2",
+          "eloChanges": {
+            "411916947773587456": {
+              "before": -10,
+              "after": -20,
+              "delta": -10,
+              "streakBefore": -1,
+              "streakAfter": -2,
+              "snapshot": {
+                "elo": -10,
+                "streak": -1,
+                "wins": 0,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "1020772849906098186": {
+              "before": 0,
+              "after": 13,
+              "delta": 13,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            }
+          }
+        },
+        "5": {
+          "id": 5,
+          "number": 5,
+          "status": "finished",
+          "modeKey": "4v4-solo",
+          "teamsCount": 2,
+          "playersPerTeam": 4,
+          "pickSystem": "classic",
+          "captains": [
+            "276060004262477825",
+            "1500257357643649194"
+          ],
+          "teams": [
+            [
+              "276060004262477825"
+            ],
+            [
+              "1500257357643649194"
+            ]
+          ],
+          "remainingPlayers": [
+            "1020772849906098186",
+            "1538406788645392454",
+            "429457053791158281",
+            "1045757273919721522",
+            "710034409214181396",
+            "1280295562708521001"
+          ],
+          "pickSequence": [
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "lastTeamIndex": 1,
+          "pickIndex": 0,
+          "currentCaptain": "276060004262477825",
+          "threadId": "1551010006357508137",
+          "pickDeadline": 1789860123074,
+          "votes": {
+            "team1": [],
+            "team2": [],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1789860002875,
+          "captain1": "276060004262477825",
+          "captain2": "1500257357643649194",
+          "team1": [
+            "276060004262477825"
+          ],
+          "team2": [
+            "1500257357643649194"
+          ],
+          "notifiedPickIndex": 0,
+          "result": "team1",
+          "eloChanges": {
+            "276060004262477825": {
+              "before": -10,
+              "after": 3,
+              "delta": 13,
+              "streakBefore": -1,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": -10,
+                "streak": -1,
+                "wins": 0,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "1500257357643649194": {
+              "before": -10,
+              "after": -20,
+              "delta": -10,
+              "streakBefore": -1,
+              "streakAfter": -2,
+              "snapshot": {
+                "elo": -10,
+                "streak": -1,
+                "wins": 0,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            }
+          }
+        },
+        "6": {
+          "id": 6,
+          "number": 1,
+          "status": "finished",
+          "modeKey": "1v1-solo",
+          "teamsCount": 2,
+          "playersPerTeam": 1,
+          "pickSystem": "classic",
+          "captains": [
+            "1280295562708521001",
+            "1454925015597322417"
+          ],
+          "teams": [
+            [
+              "1280295562708521001"
+            ],
+            [
+              "1454925015597322417"
+            ]
+          ],
+          "remainingPlayers": [],
+          "pickSequence": [],
+          "lastTeamIndex": null,
+          "pickIndex": 0,
+          "currentCaptain": null,
+          "threadId": "1551014569621717064",
+          "pickDeadline": null,
+          "votes": {
+            "team1": [],
+            "team2": [],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1789861090868,
+          "captain1": "1280295562708521001",
+          "captain2": "1454925015597322417",
+          "team1": [
+            "1280295562708521001"
+          ],
+          "team2": [
+            "1454925015597322417"
+          ],
+          "resultMessage": {
+            "channelId": "1551014569621717064",
+            "messageId": "1551014573375627458"
+          },
+          "result": "team2",
+          "eloChanges": {
+            "1280295562708521001": {
+              "before": 0,
+              "after": -10,
+              "delta": -10,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1454925015597322417": {
+              "before": 0,
+              "after": 13,
+              "delta": 13,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            }
+          }
+        },
+        "7": {
+          "id": 7,
+          "number": 2,
+          "status": "finished",
+          "modeKey": "1v1-solo",
+          "teamsCount": 2,
+          "playersPerTeam": 1,
+          "pickSystem": "classic",
+          "captains": [
+            "1454925015597322417",
+            "1280295562708521001"
+          ],
+          "teams": [
+            [
+              "1454925015597322417"
+            ],
+            [
+              "1280295562708521001"
+            ]
+          ],
+          "remainingPlayers": [],
+          "pickSequence": [],
+          "lastTeamIndex": null,
+          "pickIndex": 0,
+          "currentCaptain": null,
+          "threadId": "1551015972301967440",
+          "pickDeadline": null,
+          "votes": {
+            "team1": [
+              "1454925015597322417"
+            ],
+            "team2": [],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1789861425142,
+          "captain1": "1454925015597322417",
+          "captain2": "1280295562708521001",
+          "team1": [
+            "1454925015597322417"
+          ],
+          "team2": [
+            "1280295562708521001"
+          ],
+          "resultMessage": {
+            "channelId": "1551015972301967440",
+            "messageId": "1551015987489280062"
+          },
+          "result": "team1",
+          "eloChanges": {
+            "1454925015597322417": {
+              "before": 13,
+              "after": 27,
+              "delta": 14,
+              "streakBefore": 1,
+              "streakAfter": 2,
+              "snapshot": {
+                "elo": 13,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "1280295562708521001": {
+              "before": -10,
+              "after": -19,
+              "delta": -9,
+              "streakBefore": -1,
+              "streakAfter": -2,
+              "snapshot": {
+                "elo": -10,
+                "streak": -1,
+                "wins": 0,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            }
+          }
+        },
+        "8": {
+          "id": 8,
+          "number": 6,
+          "status": "finished",
+          "modeKey": "4v4-solo",
+          "teamsCount": 2,
+          "playersPerTeam": 4,
+          "pickSystem": "classic",
+          "captains": [
+            "1500257357643649194",
+            "972228768947138690"
+          ],
+          "teams": [
+            [
+              "1500257357643649194",
+              "429457053791158281",
+              "1538406788645392454",
+              "856824651119984651"
+            ],
+            [
+              "972228768947138690",
+              "276060004262477825",
+              "710034409214181396",
+              "1045757273919721522"
+            ]
+          ],
+          "remainingPlayers": [],
+          "pickSequence": [
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "lastTeamIndex": 1,
+          "pickIndex": 5,
+          "currentCaptain": null,
+          "threadId": "1551259680142000279",
+          "pickDeadline": null,
+          "votes": {
+            "team1": [
+              "1500257357643649194"
+            ],
+            "team2": [],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1789919529753,
+          "captain1": "1500257357643649194",
+          "captain2": "972228768947138690",
+          "team1": [
+            "1500257357643649194",
+            "429457053791158281",
+            "1538406788645392454",
+            "856824651119984651"
+          ],
+          "team2": [
+            "972228768947138690",
+            "276060004262477825",
+            "710034409214181396",
+            "1045757273919721522"
+          ],
+          "notifiedPickIndex": 4,
+          "resultMessage": {
+            "channelId": "1551259680142000279",
+            "messageId": "1551260087765696596"
+          },
+          "result": "team1",
+          "eloChanges": {
+            "1500257357643649194": {
+              "before": -20,
+              "after": -7,
+              "delta": 13,
+              "streakBefore": -2,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": -20,
+                "streak": -2,
+                "wins": 0,
+                "losses": 2,
+                "draws": 0,
+                "gamesPlayed": 2,
+                "firstGamePlayed": true,
+                "historyLength": 2
+              }
+            },
+            "429457053791158281": {
+              "before": -10,
+              "after": 3,
+              "delta": 13,
+              "streakBefore": -1,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": -10,
+                "streak": -1,
+                "wins": 0,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "1538406788645392454": {
+              "before": 13,
+              "after": 28,
+              "delta": 15,
+              "streakBefore": 1,
+              "streakAfter": 2,
+              "snapshot": {
+                "elo": 13,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "856824651119984651": {
+              "before": 13,
+              "after": 28,
+              "delta": 15,
+              "streakBefore": 1,
+              "streakAfter": 2,
+              "snapshot": {
+                "elo": 13,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "972228768947138690": {
+              "before": 0,
+              "after": -10,
+              "delta": -10,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "276060004262477825": {
+              "before": 3,
+              "after": -7,
+              "delta": -10,
+              "streakBefore": 1,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 3,
+                "streak": 1,
+                "wins": 1,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 2,
+                "firstGamePlayed": true,
+                "historyLength": 2
+              }
+            },
+            "710034409214181396": {
+              "before": 0,
+              "after": -10,
+              "delta": -10,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1045757273919721522": {
+              "before": 13,
+              "after": 3,
+              "delta": -10,
+              "streakBefore": 1,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 13,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            }
+          }
+        },
+        "9": {
+          "id": 9,
+          "number": 7,
+          "status": "finished",
+          "modeKey": "4v4-solo",
+          "teamsCount": 2,
+          "playersPerTeam": 4,
+          "pickSystem": "classic",
+          "captains": [
+            "1500257357643649194",
+            "1280295562708521001"
+          ],
+          "teams": [
+            [
+              "1500257357643649194",
+              "1538406788645392454",
+              "429457053791158281",
+              "1020772849906098186"
+            ],
+            [
+              "1280295562708521001",
+              "276060004262477825",
+              "856824651119984651",
+              "710034409214181396"
+            ]
+          ],
+          "remainingPlayers": [],
+          "pickSequence": [
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "lastTeamIndex": 1,
+          "pickIndex": 5,
+          "currentCaptain": null,
+          "threadId": "1554984390478532740",
+          "pickDeadline": null,
+          "votes": {
+            "team1": [],
+            "team2": [
+              "1500257357643649194"
+            ],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1790807566023,
+          "captain1": "1500257357643649194",
+          "captain2": "1280295562708521001",
+          "team1": [
+            "1500257357643649194",
+            "1538406788645392454",
+            "429457053791158281",
+            "1020772849906098186"
+          ],
+          "team2": [
+            "1280295562708521001",
+            "276060004262477825",
+            "856824651119984651",
+            "710034409214181396"
+          ],
+          "notifiedPickIndex": 4,
+          "resultMessage": {
+            "channelId": "1554984390478532740",
+            "messageId": "1554984759095201873"
+          },
+          "result": "team2",
+          "eloChanges": {
+            "1500257357643649194": {
+              "before": -7,
+              "after": -17,
+              "delta": -10,
+              "streakBefore": 1,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": -7,
+                "streak": 1,
+                "wins": 1,
+                "losses": 2,
+                "draws": 0,
+                "gamesPlayed": 3,
+                "firstGamePlayed": true,
+                "historyLength": 3
+              }
+            },
+            "1538406788645392454": {
+              "before": 28,
+              "after": 18,
+              "delta": -10,
+              "streakBefore": 2,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 28,
+                "streak": 2,
+                "wins": 2,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 2,
+                "firstGamePlayed": true,
+                "historyLength": 2
+              }
+            },
+            "429457053791158281": {
+              "before": 3,
+              "after": -7,
+              "delta": -10,
+              "streakBefore": 1,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 3,
+                "streak": 1,
+                "wins": 1,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 2,
+                "firstGamePlayed": true,
+                "historyLength": 2
+              }
+            },
+            "1020772849906098186": {
+              "before": 13,
+              "after": 3,
+              "delta": -10,
+              "streakBefore": 1,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 13,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "1280295562708521001": {
+              "before": 43,
+              "after": 58,
+              "delta": 15,
+              "streakBefore": 1,
+              "streakAfter": 2,
+              "snapshot": {
+                "elo": 43,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "276060004262477825": {
+              "before": -7,
+              "after": 6,
+              "delta": 13,
+              "streakBefore": -1,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": -7,
+                "streak": -1,
+                "wins": 1,
+                "losses": 2,
+                "draws": 0,
+                "gamesPlayed": 3,
+                "firstGamePlayed": true,
+                "historyLength": 3
+              }
+            },
+            "856824651119984651": {
+              "before": 28,
+              "after": 45,
+              "delta": 17,
+              "streakBefore": 2,
+              "streakAfter": 3,
+              "snapshot": {
+                "elo": 28,
+                "streak": 2,
+                "wins": 2,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 2,
+                "firstGamePlayed": true,
+                "historyLength": 2
+              }
+            },
+            "710034409214181396": {
+              "before": -10,
+              "after": 3,
+              "delta": 13,
+              "streakBefore": -1,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": -10,
+                "streak": -1,
+                "wins": 0,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            }
+          }
+        },
+        "10": {
+          "id": 10,
+          "number": 8,
+          "status": "finished",
+          "modeKey": "4v4-solo",
+          "teamsCount": 2,
+          "playersPerTeam": 4,
+          "pickSystem": "classic",
+          "captains": [
+            "1500257357643649194",
+            "1280295562708521001"
+          ],
+          "teams": [
+            [
+              "1500257357643649194",
+              "411916947773587456",
+              "1045757273919721522",
+              "856824651119984651"
+            ],
+            [
+              "1280295562708521001",
+              "429457053791158281",
+              "276060004262477825",
+              "1538406788645392454"
+            ]
+          ],
+          "remainingPlayers": [],
+          "pickSequence": [
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "lastTeamIndex": 1,
+          "pickIndex": 5,
+          "currentCaptain": null,
+          "threadId": "1554990463302242365",
+          "pickDeadline": null,
+          "votes": {
+            "team1": [],
+            "team2": [],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1790809017587,
+          "captain1": "1500257357643649194",
+          "captain2": "1280295562708521001",
+          "team1": [
+            "1500257357643649194",
+            "411916947773587456",
+            "1045757273919721522",
+            "856824651119984651"
+          ],
+          "team2": [
+            "1280295562708521001",
+            "429457053791158281",
+            "276060004262477825",
+            "1538406788645392454"
+          ],
+          "notifiedPickIndex": 4,
+          "resultMessage": {
+            "channelId": "1554990463302242365",
+            "messageId": "1554990523876384770"
+          },
+          "result": "team2",
+          "eloChanges": {
+            "1500257357643649194": {
+              "before": 0,
+              "after": -10,
+              "delta": -10,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "411916947773587456": {
+              "before": 0,
+              "after": -10,
+              "delta": -10,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1045757273919721522": {
+              "before": 0,
+              "after": -10,
+              "delta": -10,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "856824651119984651": {
+              "before": 0,
+              "after": -10,
+              "delta": -10,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1280295562708521001": {
+              "before": 45,
+              "after": 57,
+              "delta": 12,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 45,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "429457053791158281": {
+              "before": 0,
+              "after": 12,
+              "delta": 12,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "276060004262477825": {
+              "before": 0,
+              "after": 12,
+              "delta": 12,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1538406788645392454": {
+              "before": 0,
+              "after": 12,
+              "delta": 12,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            }
+          }
+        },
+        "11": {
+          "id": 11,
+          "number": 9,
+          "status": "finished",
+          "modeKey": "4v4-solo",
+          "teamsCount": 2,
+          "playersPerTeam": 4,
+          "pickSystem": "classic",
+          "captains": [
+            "1280295562708521001",
+            "1500257357643649194"
+          ],
+          "teams": [
+            [
+              "1280295562708521001",
+              "1020772849906098186",
+              "1045757273919721522",
+              "856824651119984651"
+            ],
+            [
+              "1500257357643649194",
+              "276060004262477825",
+              "429457053791158281",
+              "1538406788645392454"
+            ]
+          ],
+          "remainingPlayers": [],
+          "pickSequence": [
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "lastTeamIndex": 1,
+          "pickIndex": 5,
+          "currentCaptain": null,
+          "threadId": "1554991587434565642",
+          "pickDeadline": null,
+          "votes": {
+            "team1": [],
+            "team2": [],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1790809285505,
+          "captain1": "1280295562708521001",
+          "captain2": "1500257357643649194",
+          "team1": [
+            "1280295562708521001",
+            "1020772849906098186",
+            "1045757273919721522",
+            "856824651119984651"
+          ],
+          "team2": [
+            "1500257357643649194",
+            "276060004262477825",
+            "429457053791158281",
+            "1538406788645392454"
+          ],
+          "notifiedPickIndex": 4,
+          "resultMessage": {
+            "channelId": "1554991587434565642",
+            "messageId": "1554991666010783857"
+          },
+          "result": "team1",
+          "eloChanges": {
+            "1280295562708521001": {
+              "before": 42,
+              "after": 57,
+              "delta": 15,
+              "streakBefore": 1,
+              "streakAfter": 2,
+              "snapshot": {
+                "elo": 42,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "1020772849906098186": {
+              "before": 0,
+              "after": 13,
+              "delta": 13,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1045757273919721522": {
+              "before": -10,
+              "after": 3,
+              "delta": 13,
+              "streakBefore": -1,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": -10,
+                "streak": -1,
+                "wins": 0,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "856824651119984651": {
+              "before": -10,
+              "after": 3,
+              "delta": 13,
+              "streakBefore": -1,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": -10,
+                "streak": -1,
+                "wins": 0,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "1500257357643649194": {
+              "before": -10,
+              "after": -20,
+              "delta": -10,
+              "streakBefore": -1,
+              "streakAfter": -2,
+              "snapshot": {
+                "elo": -10,
+                "streak": -1,
+                "wins": 0,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "276060004262477825": {
+              "before": 12,
+              "after": 2,
+              "delta": -10,
+              "streakBefore": 1,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 12,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "429457053791158281": {
+              "before": 12,
+              "after": 2,
+              "delta": -10,
+              "streakBefore": 1,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 12,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            },
+            "1538406788645392454": {
+              "before": 12,
+              "after": 2,
+              "delta": -10,
+              "streakBefore": 1,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 12,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            }
+          }
+        },
+        "12": {
+          "id": 12,
+          "number": 10,
+          "status": "finished",
+          "modeKey": "4v4-solo",
+          "teamsCount": 2,
+          "playersPerTeam": 4,
+          "pickSystem": "classic",
+          "captains": [
+            "1500257357643649194",
+            "1280295562708521001"
+          ],
+          "teams": [
+            [
+              "1500257357643649194",
+              "429457053791158281",
+              "856824651119984651",
+              "710034409214181396"
+            ],
+            [
+              "1280295562708521001",
+              "276060004262477825",
+              "1538406788645392454",
+              "1020772849906098186"
+            ]
+          ],
+          "remainingPlayers": [],
+          "pickSequence": [
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "lastTeamIndex": 1,
+          "pickIndex": 5,
+          "currentCaptain": null,
+          "threadId": "1554992417634259027",
+          "pickDeadline": null,
+          "votes": {
+            "team1": [],
+            "team2": [],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1790809483638,
+          "captain1": "1500257357643649194",
+          "captain2": "1280295562708521001",
+          "team1": [
+            "1500257357643649194",
+            "429457053791158281",
+            "856824651119984651",
+            "710034409214181396"
+          ],
+          "team2": [
+            "1280295562708521001",
+            "276060004262477825",
+            "1538406788645392454",
+            "1020772849906098186"
+          ],
+          "notifiedPickIndex": 4,
+          "resultMessage": {
+            "channelId": "1554992417634259027",
+            "messageId": "1554992477507682339"
+          },
+          "result": "team2",
+          "eloChanges": {
+            "1500257357643649194": {
+              "before": -20,
+              "after": -29,
+              "delta": -9,
+              "streakBefore": -2,
+              "streakAfter": -3,
+              "snapshot": {
+                "elo": -20,
+                "streak": -2,
+                "wins": 0,
+                "losses": 2,
+                "draws": 0,
+                "gamesPlayed": 2,
+                "firstGamePlayed": true,
+                "historyLength": 2
+              }
+            },
+            "429457053791158281": {
+              "before": 2,
+              "after": -7,
+              "delta": -9,
+              "streakBefore": -1,
+              "streakAfter": -2,
+              "snapshot": {
+                "elo": 2,
+                "streak": -1,
+                "wins": 1,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 2,
+                "firstGamePlayed": true,
+                "historyLength": 2
+              }
+            },
+            "856824651119984651": {
+              "before": 3,
+              "after": -6,
+              "delta": -9,
+              "streakBefore": 1,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 3,
+                "streak": 1,
+                "wins": 1,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 2,
+                "firstGamePlayed": true,
+                "historyLength": 2
+              }
+            },
+            "710034409214181396": {
+              "before": 0,
+              "after": -9,
+              "delta": -9,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1280295562708521001": {
+              "before": 42,
+              "after": 58,
+              "delta": 16,
+              "streakBefore": 2,
+              "streakAfter": 3,
+              "snapshot": {
+                "elo": 42,
+                "streak": 2,
+                "wins": 2,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 2,
+                "firstGamePlayed": true,
+                "historyLength": 2
+              }
+            },
+            "276060004262477825": {
+              "before": 2,
+              "after": 14,
+              "delta": 12,
+              "streakBefore": -1,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 2,
+                "streak": -1,
+                "wins": 1,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 2,
+                "firstGamePlayed": true,
+                "historyLength": 2
+              }
+            },
+            "1538406788645392454": {
+              "before": 2,
+              "after": 14,
+              "delta": 12,
+              "streakBefore": -1,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 2,
+                "streak": -1,
+                "wins": 1,
+                "losses": 1,
+                "draws": 0,
+                "gamesPlayed": 2,
+                "firstGamePlayed": true,
+                "historyLength": 2
+              }
+            },
+            "1020772849906098186": {
+              "before": 13,
+              "after": 27,
+              "delta": 14,
+              "streakBefore": 1,
+              "streakAfter": 2,
+              "snapshot": {
+                "elo": 13,
+                "streak": 1,
+                "wins": 1,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 1,
+                "firstGamePlayed": true,
+                "historyLength": 1
+              }
+            }
+          }
+        },
+        "13": {
+          "id": 13,
+          "number": 11,
+          "status": "finished",
+          "modeKey": "4v4-solo",
+          "teamsCount": 2,
+          "playersPerTeam": 4,
+          "pickSystem": "classic",
+          "captains": [
+            "1500257357643649194",
+            "1280295562708521001"
+          ],
+          "teams": [
+            [
+              "1500257357643649194",
+              "429457053791158281",
+              "856824651119984651",
+              "1020772849906098186"
+            ],
+            [
+              "1280295562708521001",
+              "276060004262477825",
+              "972228768947138690",
+              "710034409214181396"
+            ]
+          ],
+          "remainingPlayers": [],
+          "pickSequence": [
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "lastTeamIndex": 1,
+          "pickIndex": 5,
+          "currentCaptain": null,
+          "threadId": "1556735642078154874",
+          "pickDeadline": null,
+          "votes": {
+            "team1": [],
+            "team2": [],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1791225109895,
+          "captain1": "1500257357643649194",
+          "captain2": "1280295562708521001",
+          "team1": [
+            "1500257357643649194",
+            "429457053791158281",
+            "856824651119984651",
+            "1020772849906098186"
+          ],
+          "team2": [
+            "1280295562708521001",
+            "276060004262477825",
+            "972228768947138690",
+            "710034409214181396"
+          ],
+          "notifiedPickIndex": 4,
+          "resultMessage": {
+            "channelId": "1556735642078154874",
+            "messageId": "1556736028902162493"
+          },
+          "result": "team2",
+          "eloChanges": {
+            "1500257357643649194": {
+              "before": 0,
+              "after": -4,
+              "delta": -4,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "429457053791158281": {
+              "before": 0,
+              "after": -4,
+              "delta": -4,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "856824651119984651": {
+              "before": 0,
+              "after": -4,
+              "delta": -4,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1020772849906098186": {
+              "before": 0,
+              "after": -4,
+              "delta": -4,
+              "streakBefore": 0,
+              "streakAfter": -1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "1280295562708521001": {
+              "before": 600,
+              "after": 604,
+              "delta": 4,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 600,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "276060004262477825": {
+              "before": 0,
+              "after": 4,
+              "delta": 4,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "972228768947138690": {
+              "before": 0,
+              "after": 4,
+              "delta": 4,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            },
+            "710034409214181396": {
+              "before": 0,
+              "after": 4,
+              "delta": 4,
+              "streakBefore": 0,
+              "streakAfter": 1,
+              "snapshot": {
+                "elo": 0,
+                "streak": 0,
+                "wins": 0,
+                "losses": 0,
+                "draws": 0,
+                "gamesPlayed": 0,
+                "firstGamePlayed": false,
+                "historyLength": 0
+              }
+            }
+          }
+        }
+      },
+      "bans": {},
+      "captainBlacklist": {
+        "710034409214181396": {
+          "bannedBy": "1280295562708521001",
+          "reason": "Sin razón especificada",
+          "bannedAt": 1789677161624
+        },
+        "1538406788645392454": {
+          "bannedBy": "1280295562708521001",
+          "reason": "Sin razón especificada",
+          "bannedAt": 1789859841194,
+          "mode": "all"
+        },
+        "411916947773587456": {
+          "bannedBy": "1280295562708521001",
+          "reason": "Sin razón especificada",
+          "bannedAt": 1789677179809
+        },
+        "276060004262477825": {
+          "bannedBy": "1280295562708521001",
+          "reason": "Sin razón especificada",
+          "bannedAt": 1789677184827
+        },
+        "429457053791158281": {
+          "bannedBy": "1280295562708521001",
+          "reason": "Sin razón especificada",
+          "bannedAt": 1789677188918
+        },
+        "1045757273919721522": {
+          "bannedBy": "1280295562708521001",
+          "reason": "Sin razón especificada",
+          "bannedAt": 1789677192410
+        },
+        "1020772849906098186": {
+          "bannedBy": "1280295562708521001",
+          "reason": "Sin razón especificada",
+          "bannedAt": 1789677194532
+        },
+        "856824651119984651": {
+          "bannedBy": "1280295562708521001",
+          "reason": "Sin razón especificada",
+          "bannedAt": 1789677265398
+        },
+        "1500257357643649194": {
+          "bannedBy": null,
+          "reason": "AFK al pickear (automático)",
+          "bannedAt": 1789859428330,
+          "until": 1789863028330,
+          "auto": true
+        },
+        "1280295562708521001": {
+          "bannedBy": null,
+          "reason": "AFK al pickear (automático)",
+          "bannedAt": 1789919528875,
+          "until": 1789923128875,
+          "auto": true,
+          "mode": "4v4-solo"
+        }
+      },
+      "modes": {
+        "4v4-solo": {
+          "key": "4v4-solo",
+          "name": "4v4-solo",
+          "type": "solo",
+          "teams": 2,
+          "playersPerTeam": 4,
+          "totalPlayers": 8,
+          "streakBoost": false,
+          "defaultRanks": false,
+          "pickSystem": "classic",
+          "createdAt": 1789676820653,
+          "createdBy": "1280295562708521001",
+          "channelId": "1550241686901227520",
+          "queueMessage": {
+            "channelId": "1550241686901227520",
+            "messageId": "1560050968517677137"
+          },
+          "queue": [
+            {
+              "userId": "1280295562708521001",
+              "joinedAt": 1791822943420
+            }
+          ],
+          "players": {
+            "1280295562708521001": {
+              "userId": "1280295562708521001",
+              "name": "Doskuith",
+              "elo": 604,
+              "wins": 1,
+              "losses": 0,
+              "draws": 0,
+              "gamesPlayed": 1,
+              "streak": 1,
+              "bestStreak": 1,
+              "worstStreak": 0,
+              "bestElo": 604,
+              "worstElo": 0,
+              "firstGamePlayed": true,
+              "since": 1790886556768,
+              "achievements": {
+                "aprendiz": {
+                  "season": 1,
+                  "earnedAt": 1789677426872,
+                  "seasons": {
+                    "3": {
+                      "unlocked": true,
+                      "lost": false,
+                      "dropAnnounced": false,
+                      "regainAnnounced": false
+                    },
+                    "7": {
+                      "unlocked": true,
+                      "lost": false,
+                      "dropAnnounced": false,
+                      "regainAnnounced": false
+                    }
+                  }
+                }
+              },
+              "history": [
+                604
+              ],
+              "rankHistory": {
+                "oro": [
+                  7
+                ]
+              },
+              "currentRank": "oro",
+              "currentEloRole": "aprendiz"
+            },
+            "1500257357643649194": {
+              "userId": "1500257357643649194",
+              "name": "Zaxz",
+              "elo": -4,
+              "wins": 0,
+              "losses": 1,
+              "draws": 0,
+              "gamesPlayed": 1,
+              "streak": -1,
+              "bestStreak": 0,
+              "worstStreak": -1,
+              "bestElo": 0,
+              "worstElo": -4,
+              "firstGamePlayed": true,
+              "since": 1790886556768,
+              "achievements": {},
+              "history": [
+                -4
+              ],
+              "rankHistory": {
+                "bronce": [
+                  7
+                ]
+              },
+              "currentRank": "bronce"
+            },
+            "1538406788645392454": {
+              "userId": "1538406788645392454",
+              "name": "Elo By Doskuith v1",
+              "elo": 0,
+              "wins": 0,
+              "losses": 0,
+              "draws": 0,
+              "gamesPlayed": 0,
+              "streak": 0,
+              "bestStreak": 0,
+              "worstStreak": 0,
+              "bestElo": 0,
+              "worstElo": 0,
+              "firstGamePlayed": false,
+              "since": 1790886556768,
+              "achievements": {}
+            },
+            "856824651119984651": {
+              "userId": "856824651119984651",
+              "name": "Elo by Anddy v2",
+              "elo": -4,
+              "wins": 0,
+              "losses": 1,
+              "draws": 0,
+              "gamesPlayed": 1,
+              "streak": -1,
+              "bestStreak": 0,
+              "worstStreak": -1,
+              "bestElo": 0,
+              "worstElo": -4,
+              "firstGamePlayed": true,
+              "since": 1790886556768,
+              "achievements": {},
+              "history": [
+                -4
+              ],
+              "rankHistory": {
+                "bronce": [
+                  7
+                ]
+              },
+              "currentRank": "bronce"
+            },
+            "411916947773587456": {
+              "userId": "411916947773587456",
+              "name": "Jockie Music",
+              "elo": 0,
+              "wins": 0,
+              "losses": 0,
+              "draws": 0,
+              "gamesPlayed": 0,
+              "streak": 0,
+              "bestStreak": 0,
+              "worstStreak": 0,
+              "bestElo": 0,
+              "worstElo": 0,
+              "firstGamePlayed": false,
+              "since": 1790886556768,
+              "achievements": {}
+            },
+            "276060004262477825": {
+              "userId": "276060004262477825",
+              "name": "Koya",
+              "elo": 4,
+              "wins": 1,
+              "losses": 0,
+              "draws": 0,
+              "gamesPlayed": 1,
+              "streak": 1,
+              "bestStreak": 1,
+              "worstStreak": 0,
+              "bestElo": 4,
+              "worstElo": 0,
+              "firstGamePlayed": true,
+              "since": 1790886556768,
+              "achievements": {},
+              "history": [
+                4
+              ],
+              "rankHistory": {
+                "bronce": [
+                  7
+                ]
+              },
+              "currentRank": "bronce"
+            },
+            "429457053791158281": {
+              "userId": "429457053791158281",
+              "name": "Nekotina",
+              "elo": -4,
+              "wins": 0,
+              "losses": 1,
+              "draws": 0,
+              "gamesPlayed": 1,
+              "streak": -1,
+              "bestStreak": 0,
+              "worstStreak": -1,
+              "bestElo": 0,
+              "worstElo": -4,
+              "firstGamePlayed": true,
+              "since": 1790886556768,
+              "achievements": {},
+              "history": [
+                -4
+              ],
+              "rankHistory": {
+                "bronce": [
+                  7
+                ]
+              },
+              "currentRank": "bronce"
+            },
+            "1020772849906098186": {
+              "userId": "1020772849906098186",
+              "name": "RedBot",
+              "elo": -4,
+              "wins": 0,
+              "losses": 1,
+              "draws": 0,
+              "gamesPlayed": 1,
+              "streak": -1,
+              "bestStreak": 0,
+              "worstStreak": -1,
+              "bestElo": 0,
+              "worstElo": -4,
+              "firstGamePlayed": true,
+              "since": 1790886556768,
+              "achievements": {},
+              "history": [
+                -4
+              ],
+              "rankHistory": {
+                "bronce": [
+                  7
+                ]
+              },
+              "currentRank": "bronce"
+            },
+            "1045757273919721522": {
+              "userId": "1045757273919721522",
+              "name": "RB3",
+              "elo": 0,
+              "wins": 0,
+              "losses": 0,
+              "draws": 0,
+              "gamesPlayed": 0,
+              "streak": 0,
+              "bestStreak": 0,
+              "worstStreak": 0,
+              "bestElo": 0,
+              "worstElo": 0,
+              "firstGamePlayed": false,
+              "since": 1790886556768,
+              "achievements": {}
+            },
+            "710034409214181396": {
+              "userId": "710034409214181396",
+              "name": "Ticket King",
+              "elo": 4,
+              "wins": 1,
+              "losses": 0,
+              "draws": 0,
+              "gamesPlayed": 1,
+              "streak": 1,
+              "bestStreak": 1,
+              "worstStreak": 0,
+              "bestElo": 4,
+              "worstElo": 0,
+              "firstGamePlayed": true,
+              "since": 1790886556768,
+              "achievements": {},
+              "history": [
+                4
+              ],
+              "rankHistory": {
+                "bronce": [
+                  7
+                ]
+              },
+              "currentRank": "bronce"
+            },
+            "972228768947138690": {
+              "userId": "972228768947138690",
+              "name": "₊˚๑୨✝⟆: 𝐁𝐫𝐨𝐨𝐤𝐬 🌾",
+              "elo": 4,
+              "wins": 1,
+              "losses": 0,
+              "draws": 0,
+              "gamesPlayed": 1,
+              "streak": 1,
+              "bestStreak": 1,
+              "worstStreak": 0,
+              "bestElo": 4,
+              "worstElo": 0,
+              "firstGamePlayed": true,
+              "since": 1790886556768,
+              "achievements": {},
+              "history": [
+                4
+              ],
+              "rankHistory": {
+                "bronce": [
+                  7
+                ]
+              },
+              "currentRank": "bronce"
+            },
+            "1400879525071556671": {
+              "userId": "1400879525071556671",
+              "name": "r9",
+              "elo": 0,
+              "wins": 0,
+              "losses": 0,
+              "draws": 0,
+              "gamesPlayed": 0,
+              "streak": 0,
+              "bestStreak": 0,
+              "worstStreak": 0,
+              "bestElo": 0,
+              "worstElo": 0,
+              "firstGamePlayed": false,
+              "since": 1790886556768,
+              "achievements": {}
+            },
+            "1538377958626951273": {
+              "userId": "1538377958626951273",
+              "name": "Casafus",
+              "elo": 0,
+              "wins": 0,
+              "losses": 0,
+              "draws": 0,
+              "gamesPlayed": 0,
+              "streak": 0,
+              "bestStreak": 0,
+              "worstStreak": 0,
+              "bestElo": 0,
+              "worstElo": 0,
+              "firstGamePlayed": false,
+              "currentRank": "bronce",
+              "rankHistory": {},
+              "since": 1792015536586
+            }
+          },
+          "numberSeq": {
+            "next": 12,
+            "reusable": []
+          },
+          "roleCategories": {
+            "raro": {
+              "key": "raro",
+              "name": "🟢 RARO",
+              "color": 5763719,
+              "createdAt": 1789676929099,
+              "createdBy": "1280295562708521001"
+            }
+          },
+          "roleAchievements": {
+            "buen_momento": {
+              "key": "buen_momento",
+              "name": "🎯 Buen Momento",
+              "roleId": "1550242428257046630",
+              "metric": "racha",
+              "threshold": 5,
+              "minGames": null,
+              "color": 5763719,
+              "categoryKey": "raro",
+              "createdAt": 1789676998170,
+              "createdBy": "1280295562708521001"
+            },
+            "aprendiz": {
+              "key": "aprendiz",
+              "name": "🎯 Aprendiz",
+              "roleId": "1550242902855385141",
+              "metric": "elo",
+              "threshold": 50,
+              "minGames": null,
+              "color": 5763719,
+              "categoryKey": "raro",
+              "createdAt": 1789677111399,
+              "createdBy": "1280295562708521001"
+            }
+          },
+          "queueTimeoutMs": 300000,
+          "pickTimeoutMs": 600000,
+          "championEnabled": true,
+          "championColor": 3447003,
+          "championRoleId": "1554996432971497554",
+          "currentChampionId": "1280295562708521001"
+        },
+        "1v1-solo": {
+          "key": "1v1-solo",
+          "name": "1v1-solo",
+          "type": "solo",
+          "teams": 2,
+          "playersPerTeam": 1,
+          "totalPlayers": 2,
+          "streakBoost": false,
+          "defaultRanks": false,
+          "pickSystem": "classic",
+          "championEnabled": true,
+          "championColor": 15105570,
+          "championRoleId": null,
+          "currentChampionId": null,
+          "createdAt": 1791822772162,
+          "createdBy": "1280295562708521001",
+          "channelId": "1559242457525522515",
+          "queueMessage": {
+            "channelId": "1559242457525522515",
+            "messageId": "1559242458695606313"
+          },
+          "queue": [],
+          "players": {},
+          "numberSeq": {
+            "next": 1,
+            "reusable": []
+          }
+        }
+      },
+      "vip": {
+        "tier": "pro",
+        "activatedAt": 1789860660992,
+        "expiresAt": 1792452660992,
+        "limitAlerted": false
+      },
+      "knownPlayerIds": {
+        "1280295562708521001": true,
+        "1500257357643649194": true,
+        "1538406788645392454": true,
+        "856824651119984651": true,
+        "411916947773587456": true,
+        "276060004262477825": true,
+        "429457053791158281": true,
+        "1020772849906098186": true,
+        "1045757273919721522": true,
+        "710034409214181396": true,
+        "1454925015597322417": true,
+        "972228768947138690": true,
+        "1400879525071556671": true,
+        "1538377958626951273": true
+      },
+      "preferredNames": {},
+      "season": 7,
+      "numberSeq": {
+        "next": 1,
+        "reusable": []
+      },
+      "adminCategoryId": "1550241242686947389",
+      "initMessage": {
+        "channelId": "1550241244007899266",
+        "messageId": "1559242462596169870"
+      },
+      "seasonDividerRoleId": "1550874076904427578",
+      "resetSeasonAuthorized": {},
+      "seasonParticipants": {
+        "1280295562708521001": true,
+        "1500257357643649194": true,
+        "1538377958626951273": true
+      },
+      "seasonResetQueues": {},
+      "rainbow": {
+        "roleId": "1560020139087499435",
+        "holders": [
+          "1280295562708521001",
+          "1538406788645392454"
+        ],
+        "createdAt": 1792008183956
+      }
+    },
+    "1532141785596563606": {
+      "channels": {
+        "init": "1548472705601376256",
+        "info_chat": "1548472712337555637",
+        "submit": "1548472714816135168",
+        "game_announcement": "1548472716913418340",
+        "bans": "1548472718972948665"
+      },
+      "categoryId": null,
+      "adminRoleId": "1532179119603974376",
+      "queueMessage": null,
+      "nextGameId": 1,
+      "reusableGameIds": [],
+      "players": {},
+      "queue": [],
+      "games": {},
+      "bans": {},
+      "captainBlacklist": {},
+      "modes": {},
+      "vip": {
+        "tier": "free",
+        "activatedAt": null,
+        "expiresAt": null,
+        "limitAlerted": false
+      },
+      "adminCategoryId": "1548472704561193141",
+      "initMessage": {
+        "channelId": "1548472705601376256",
+        "messageId": "1548472707790938144"
+      },
+      "numberSeq": {
+        "next": 1,
+        "reusable": []
+      },
+      "knownPlayerIds": {},
+      "preferredNames": {},
+      "resetSeasonAuthorized": {},
+      "season": 1
+    },
+    "1486030683187974155": {
+      "channels": {
+        "init": "1538632636744867900",
+        "info_chat": "1538632637810483210",
+        "submit": "1538632638854725683",
+        "game_announcement": "1538632639844454533",
+        "bans": "1538632641371185202",
+        "queue": "1538632642830798878"
+      },
+      "categoryId": "1538632635629178980",
+      "adminRoleId": "1538632634379538563",
+      "queueMessage": {
+        "channelId": "1538632642830798878",
+        "messageId": "1548811495217827993"
+      },
+      "nextGameId": 2,
+      "reusableGameIds": [
+        1
+      ],
+      "players": {
+        "1280295562708521001": {
+          "userId": "1280295562708521001",
+          "name": "Doskuith",
+          "elo": 0,
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "gamesPlayed": 0,
+          "streak": 0,
+          "bestStreak": 0,
+          "worstStreak": 0,
+          "bestElo": 0,
+          "worstElo": 0,
+          "firstGamePlayed": false,
+          "since": 1786909176080,
+          "dmTagDisabled": true
+        },
+        "1101771626409889843": {
+          "userId": "1101771626409889843",
+          "name": "nekrd",
+          "elo": 0,
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "gamesPlayed": 0,
+          "streak": 0,
+          "bestStreak": 0,
+          "worstStreak": 0,
+          "bestElo": 0,
+          "worstElo": 0,
+          "firstGamePlayed": false,
+          "since": 1786910145927
+        },
+        "685644330844815375": {
+          "userId": "685644330844815375",
+          "name": ".anayita",
+          "elo": 0,
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "gamesPlayed": 0,
+          "streak": 0,
+          "bestStreak": 0,
+          "worstStreak": 0,
+          "bestElo": 0,
+          "worstElo": 0,
+          "firstGamePlayed": false,
+          "since": 1786910157322
+        },
+        "810644194498314324": {
+          "userId": "810644194498314324",
+          "name": "lu1s7272",
+          "elo": 0,
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "gamesPlayed": 0,
+          "streak": 0,
+          "bestStreak": 0,
+          "worstStreak": 0,
+          "bestElo": 0,
+          "worstElo": 0,
+          "firstGamePlayed": false,
+          "since": 1786910160291
+        },
+        "1405043406287274014": {
+          "userId": "1405043406287274014",
+          "name": "latapop",
+          "elo": 0,
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "gamesPlayed": 0,
+          "streak": 0,
+          "bestStreak": 0,
+          "worstStreak": 0,
+          "bestElo": 0,
+          "worstElo": 0,
+          "firstGamePlayed": false,
+          "since": 1786910171044
+        },
+        "1400879525071556671": {
+          "userId": "1400879525071556671",
+          "name": "r9",
+          "elo": 0,
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "gamesPlayed": 0,
+          "streak": 0,
+          "bestStreak": 0,
+          "worstStreak": 0,
+          "bestElo": 0,
+          "worstElo": 0,
+          "firstGamePlayed": false,
+          "since": 1786910173779
+        },
+        "996598080206016562": {
+          "userId": "996598080206016562",
+          "name": "Bered",
+          "elo": 0,
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "gamesPlayed": 0,
+          "streak": 0,
+          "bestStreak": 0,
+          "worstStreak": 0,
+          "bestElo": 0,
+          "worstElo": 0,
+          "firstGamePlayed": false,
+          "since": 1786910185260
+        },
+        "1454358891998744706": {
+          "userId": "1454358891998744706",
+          "name": "piyi",
+          "elo": 0,
+          "wins": 0,
+          "losses": 0,
+          "draws": 0,
+          "gamesPlayed": 0,
+          "streak": 0,
+          "bestStreak": 0,
+          "worstStreak": 0,
+          "bestElo": 0,
+          "worstElo": 0,
+          "firstGamePlayed": false,
+          "since": 1786910192192
+        }
+      },
+      "queue": [],
+      "games": {
+        "1": {
+          "id": 1,
+          "status": "cancelled",
+          "captain1": "1454358891998744706",
+          "captain2": "996598080206016562",
+          "team1": [
+            "1454358891998744706"
+          ],
+          "team2": [
+            "996598080206016562"
+          ],
+          "remainingPlayers": [
+            "1405043406287274014",
+            "1280295562708521001",
+            "810644194498314324",
+            "685644330844815375",
+            "1400879525071556671",
+            "1101771626409889843"
+          ],
+          "pickSequence": [
+            "captain1",
+            "captain2",
+            "captain2",
+            "captain1",
+            "captain1"
+          ],
+          "pickIndex": 0,
+          "currentCaptain": "1454358891998744706",
+          "threadId": "1538637603400585501",
+          "pickDeadline": 1786910312578,
+          "votes": {
+            "team1": [],
+            "team2": [],
+            "draw": [],
+            "cancel": []
+          },
+          "createdAt": 1786910192577,
+          "cancelReason": "afk_captain"
+        }
+      },
+      "bans": {},
+      "captainBlacklist": {},
+      "modes": {},
+      "knownPlayerIds": {
+        "1280295562708521001": true,
+        "1101771626409889843": true,
+        "685644330844815375": true,
+        "810644194498314324": true,
+        "1405043406287274014": true,
+        "1400879525071556671": true,
+        "996598080206016562": true,
+        "1454358891998744706": true
+      },
+      "vip": {
+        "tier": "free",
+        "activatedAt": null,
+        "expiresAt": null,
+        "limitAlerted": false
+      },
+      "numberSeq": {
+        "next": 2,
+        "reusable": []
+      },
+      "preferredNames": {},
+      "resetSeasonAuthorized": {},
+      "season": 1
+    },
+    "1269774152982724709": {
+      "channels": {},
+      "categoryId": null,
+      "adminRoleId": null,
+      "queueMessage": null,
+      "nextGameId": 1,
+      "reusableGameIds": [],
+      "players": {},
+      "queue": [],
+      "games": {},
+      "bans": {},
+      "captainBlacklist": {},
+      "modes": {},
+      "vip": {
+        "tier": "free",
+        "activatedAt": null,
+        "expiresAt": null,
+        "limitAlerted": false
+      },
+      "knownPlayerIds": {},
+      "preferredNames": {},
+      "season": 1,
+      "seasonDividerRoleId": null,
+      "seasonParticipants": {},
+      "resetSeasonAuthorized": {},
+      "championEnabled": false,
+      "championColor": null,
+      "championRoleId": null,
+      "currentChampionId": null,
+      "numberSeq": {
+        "next": 1,
+        "reusable": []
+      }
+    }
+  },
+  "salas": {
+    "LJUEbyJcSt0": {
+      "status": "ocupada",
+      "updatedAt": 1789337328603,
+      "updatedBy": "1280295562708521001"
+    },
+    "v6CEOkrnqAk": {
+      "status": "libre",
+      "updatedAt": 1789337317699,
+      "updatedBy": null
+    },
+    "Slu1cExzsdQ": {
+      "status": "libre",
+      "updatedAt": 1789335080594,
+      "updatedBy": "1280295562708521001"
+    },
+    "OvpsaLROGzA": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "lSEC3-vOj38": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "ZEV7pIC6bpU": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "eMd4GaTY6PA": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "od5212R52iY": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "1ujsdX7c_7U": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "qM01Yi65TAM": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "_xvuUgkWmg0": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "9NJZzW1uEdo": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "Toi9Fy90Sgw": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "r8qEOVXnk48": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "PZlAjWjS3K0": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "wOCJTrG4WbU": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "_9ucNhK9XxY": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "py7AQkwDyNw": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "C9WVFXvrz3s": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    },
+    "CjNbJN3OTpU": {
+      "status": "libre",
+      "updatedAt": 1789334983452,
+      "updatedBy": null
+    }
+  }
+}

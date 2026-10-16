@@ -1,0 +1,15 @@
+{
+  "name": "elo-de-doskuith",
+  "version": "2.0.0",
+  "description": "Bot de Discord para gestionar colas 4v4 de Haxball con draft, elo, resultados y bans.",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "deploy": "node src/deploy-commands.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5"
+  }
+}
