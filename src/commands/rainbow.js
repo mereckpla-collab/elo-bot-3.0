@@ -4,6 +4,15 @@ const { successEmbed, errorEmbed } = require('../utils/embeds');
 const { assertChannel } = require('../utils/channelGuard');
 const { RAINBOW_ROLE_NAME, RAINBOW_INTERVAL_MS } = require('../config');
 const { startRainbow, hslToInt, placeOnTop } = require('../utils/rainbowRole');
+const { isBotOwner } = require('../utils/vip');
+
+// Dueño del bot: quien figura como OWNER_ID en el .env, o el dueño real de la
+// aplicación en el Portal de Desarrolladores de Discord (lo mismo que ya usan
+// /install y /vip). Así funciona aunque OWNER_ID esté vacío o sea de otra cuenta.
+async function isOwner(interaction) {
+  if (process.env.OWNER_ID && interaction.user.id === process.env.OWNER_ID) return true;
+  return Boolean(await isBotOwner(interaction).catch(() => false));
+}
 
 // Texto que explica cómo quedó la posición del rol.
 function positionText(role, pos) {
@@ -36,9 +45,15 @@ module.exports = {
     const guildData = getGuild(interaction.guildId);
     if (!(await assertChannel(interaction, guildData, 'rainbow'))) return;
 
-    // Solo el dueño del bot (OWNER_ID), igual que /reset_season_autorizar.
-    if (interaction.user.id !== process.env.OWNER_ID) {
-      return interaction.reply({ embeds: [errorEmbed('Solo el dueño del bot puede usar este comando.')], ephemeral: true });
+    // Solo el dueño del bot.
+    if (!(await isOwner(interaction))) {
+      return interaction.reply({
+        embeds: [errorEmbed(
+          'Solo el dueño del bot puede usar este comando.\n' +
+          `Tu ID de Discord es \`${interaction.user.id}\`: si eres el dueño, ponlo en el \`.env\` como \`OWNER_ID=${interaction.user.id}\` y reinicia el bot.`
+        )],
+        ephemeral: true
+      });
     }
 
     const sub = interaction.options.getSubcommand();
