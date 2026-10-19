@@ -172,14 +172,14 @@ async function handleModalSubmit(interaction) {
   }
 
   if (interaction.customId === 'mwmodal_championcolor') {
-    const { parseColor, COLOR_NAMES_HELP } = require('../utils/color');
+    const { parseColorList } = require('../utils/color');
     const raw = interaction.fields.getTextInputValue('value');
-    const color = parseColor(raw);
-    if (color === null) {
-      return interaction.reply({ content: `❌ Ese color no lo reconozco. Usá un hex (ej. \`#FFD700\`) o uno de estos nombres: ${COLOR_NAMES_HELP}.`, ephemeral: true });
+    const parsed = parseColorList(raw, 3);
+    if (!parsed.ok) {
+      return interaction.reply({ content: `❌ ${parsed.message}`, ephemeral: true });
     }
     session.championEnabled = true;
-    session.championColor = color;
+    [session.championColor, session.secondColor, session.thirdColor] = parsed.colors;
     return showConfirmScreen(interaction, session, true, true);
   }
 }
@@ -256,10 +256,10 @@ async function toggleChampion(interaction) {
   // Se está prendiendo: primero pedimos el color del rol.
   const modal = new ModalBuilder()
     .setCustomId('mwmodal_championcolor')
-    .setTitle('Color del rol de campeón (🥇)')
+    .setTitle('Colores del podio (🥇 🥈 🥉)')
     .addComponents(
       new ActionRowBuilder().addComponents(
-        new TextInputBuilder().setCustomId('value').setLabel('Color (hex #FFD700 o nombre: dorado, azul)').setStyle(TextInputStyle.Short).setRequired(true).setMaxLength(20)
+        new TextInputBuilder().setCustomId('value').setLabel('3 colores separados por coma (1º, 2º, 3º)').setPlaceholder('amarillo, azul, verde').setStyle(TextInputStyle.Short).setRequired(true).setMaxLength(80)
       )
     );
   return interaction.showModal(modal);
@@ -359,8 +359,8 @@ async function finish(interaction, guildData) {
     championColor: session.championColor || null,
     championRoleId: null,
     currentChampionId: null,
-    secondColor: null, secondRoleId: null, currentSecondId: null,   // rol 🥈 del 2º puesto
-    thirdColor: null, thirdRoleId: null, currentThirdId: null,      // rol 🥉 del 3º puesto
+    secondColor: session.secondColor || null, secondRoleId: null, currentSecondId: null,   // rol 🥈 del 2º puesto
+    thirdColor: session.thirdColor || null, thirdRoleId: null, currentThirdId: null,      // rol 🥉 del 3º puesto
     createdAt: Date.now(),
     createdBy: interaction.user.id,
     // Estado de cola propio de este modo (Etapa 3b):
