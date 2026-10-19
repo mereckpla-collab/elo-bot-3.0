@@ -204,7 +204,7 @@ async function showConfirmScreen(interaction, session, isUpdate, isReply) {
     .setDescription(
       `I now have got the mode \`${name}\`.\n` +
       `Temporada: **${seasonToApply}**${session.chosenSeason ? ' (se va a aplicar a TODO el servidor, no solo a este modo)' : ''}.\n` +
-      `Rol de campeón: **${session.championEnabled ? 'sí' : 'no'}**.\n` +
+      `Roles de podio (🥇 campeón, 🥈 2º, 🥉 3º): **${session.championEnabled ? 'sí' : 'no'}**.\n` +
       `We have several options now:\n\n` +
       `> Confirm and finish the set up\n` +
       `> Edit some settings about this new mode\n` +
@@ -256,7 +256,7 @@ async function toggleChampion(interaction) {
   // Se está prendiendo: primero pedimos el color del rol.
   const modal = new ModalBuilder()
     .setCustomId('mwmodal_championcolor')
-    .setTitle('Color del rol de campeón')
+    .setTitle('Color del rol de campeón (🥇)')
     .addComponents(
       new ActionRowBuilder().addComponents(
         new TextInputBuilder().setCustomId('value').setLabel('Color (hex #FFD700 o nombre: dorado, azul)').setStyle(TextInputStyle.Short).setRequired(true).setMaxLength(20)
@@ -355,10 +355,12 @@ async function finish(interaction, guildData) {
     streakBoost: session.streakBoost,
     defaultRanks: session.defaultRanks,
     pickSystem: 'classic',   // 'classic' = draft snake (1-2-2-1...) | 'single' = cada capitán elige 1 por turno, sin dobles picks
-    championEnabled: session.championEnabled || false, // rol de "Campeón" al n°1 cuando se resetea la temporada (botón "Rol de campeón" del wizard, o /campeon_configurar)
+    championEnabled: session.championEnabled || false, // roles de podio (🥇 1º, 🥈 2º, 🥉 3º) cuando se resetea la temporada (botón "Rol de campeón" del wizard, o /campeon_configurar)
     championColor: session.championColor || null,
     championRoleId: null,
     currentChampionId: null,
+    secondColor: null, secondRoleId: null, currentSecondId: null,   // rol 🥈 del 2º puesto
+    thirdColor: null, thirdRoleId: null, currentThirdId: null,      // rol 🥉 del 3º puesto
     createdAt: Date.now(),
     createdBy: interaction.user.id,
     // Estado de cola propio de este modo (Etapa 3b):
