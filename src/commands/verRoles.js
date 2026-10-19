@@ -17,6 +17,7 @@ function metaLabelBase(ach) {
     case 'racha': return `(racha de ${ach.threshold} partidos ganados)`;
     case 'winrate': return `(${ach.threshold}% de WR, mín. ${ach.minGames} partidas)`;
     case 'partidas': return `(${ach.threshold} partidas jugadas)`;
+    case 'victorias': return `(${ach.threshold} partidas ganadas)`;
     default: return '';
   }
 }
