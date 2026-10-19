@@ -9,9 +9,9 @@ const { parseColor, COLOR_NAMES_HELP } = require('../utils/color');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('campeon_configurar')
-    .setDescription('Elo Admin: activa/desactiva el rol de campeón de temporada en una cola, y su color.')
-    .addBooleanOption(o => o.setName('activado').setDescription('¿Dar rol de campeón al n°1 cuando se resetee la temporada?').setRequired(true))
-    .addStringOption(o => o.setName('color').setDescription('Color del rol (hex como #FFD700, o un nombre como dorado/azul/rojo)').setRequired(false))
+    .setDescription('Elo Admin: activa/desactiva los roles de podio (🥇🥈🥉) de temporada en una cola, y el color del de campeón.')
+    .addBooleanOption(o => o.setName('activado').setDescription('¿Dar roles al top 3 (🥇 1º, 🥈 2º, 🥉 3º) cuando se resetee la temporada?').setRequired(true))
+    .addStringOption(o => o.setName('color').setDescription('Color del rol del campeón (hex como #FFD700, o un nombre como dorado/azul/rojo)').setRequired(false))
     .addStringOption(o => o.setName('modo').setDescription('En qué cola/modo (si hay más de una)').setRequired(false).setAutocomplete(true)),
 
   async autocomplete(interaction) {
@@ -54,7 +54,7 @@ module.exports = {
       embeds: [successEmbed(
         activado
           ? `Listo — **${resolved.label}** le va a dar el rol 🏆 Campeón al n°1 de elo cada vez que se use \`/reset_season\` ahí${colorNote}.`
-          : `Listo — **${resolved.label}** ya NO da el rol de campeón al resetear la temporada.`
+          : `Listo — **${resolved.label}** ya NO da roles de podio al resetear la temporada.`
       )]
     });
   }
