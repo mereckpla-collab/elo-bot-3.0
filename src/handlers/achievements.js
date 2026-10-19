@@ -9,6 +9,7 @@ function computeStat(player, metric) {
     case 'elo': return player.elo;
     case 'racha': return player.streak > 0 ? player.streak : 0;
     case 'partidas': return player.gamesPlayed;
+    case 'victorias': return player.wins || 0;
     case 'winrate': return player.gamesPlayed > 0 ? (player.wins / player.gamesPlayed) * 100 : 0;
     default: return -Infinity;
   }
@@ -19,6 +20,7 @@ function statLabel(metric, value) {
     case 'elo': return `${Math.round(value)} de Elo`;
     case 'racha': return `una racha de ${Math.round(value)} partidas ganadas`;
     case 'partidas': return `${Math.round(value)} partidas jugadas`;
+    case 'victorias': return `${Math.round(value)} partidas ganadas`;
     case 'winrate': return `${value.toFixed(1)}% de win rate`;
     default: return `${value}`;
   }
