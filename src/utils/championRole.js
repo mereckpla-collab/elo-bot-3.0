@@ -1,14 +1,22 @@
 const { EmbedBuilder } = require('discord.js');
 const { ELO_START } = require('../config');
 
-// Un solo rol de "campeón" por cola (se reutiliza y se renombra cada
-// temporada, igual que el separador gris) — nunca lo tiene más de una
-// persona a la vez: se lo sacamos al campeón viejo y se lo damos al nuevo.
-async function ensureChampionRole(guild, store, modeLabel, season) {
-  const name = `🏆 Campeón ${modeLabel} — Temporada ${season}`.slice(0, 100);
-  const color = store.championColor || 0xFFD700; // dorado por default
+// Roles de PODIO por cola: 🥇 Campeón (1º), 🥈 Subcampeón (2º) y 🥉 Tercer lugar (3º).
+// Cada uno se reutiliza y se renombra cada temporada (igual que el separador
+// gris) — nunca lo tiene más de una persona a la vez: se lo sacamos al viejo
+// y se lo damos al nuevo. Los IDs viejos (championRoleId / currentChampionId)
+// siguen siendo los del 1º, así que las colas ya creadas no se rompen.
+const PODIUM_SLOTS = [
+  { key: 'first',  medal: '🥇', title: 'Campeón',    roleField: 'championRoleId', holderField: 'currentChampionId', colorField: 'championColor',   defaultColor: 0xFFD700 }, // dorado
+  { key: 'second', medal: '🥈', title: 'Subcampeón', roleField: 'secondRoleId',   holderField: 'currentSecondId',   colorField: 'secondColor',     defaultColor: 0xC0C0C0 }, // plata
+  { key: 'third',  medal: '🥉', title: '3er lugar',  roleField: 'thirdRoleId',    holderField: 'currentThirdId',    colorField: 'thirdColor',      defaultColor: 0xCD7F32 }  // bronce
+];
 
-  let role = store.championRoleId ? await guild.roles.fetch(store.championRoleId).catch(() => null) : null;
+async function ensurePodiumRole(guild, store, slot, modeLabel, season) {
+  const name = `${slot.medal} ${slot.title} ${modeLabel} — Temporada ${season}`.slice(0, 100);
+  const color = store[slot.colorField] || slot.defaultColor;
+
+  let role = store[slot.roleField] ? await guild.roles.fetch(store[slot.roleField]).catch(() => null) : null;
 
   if (role) {
     await role.edit({ name, color }).catch(() => {});
@@ -19,20 +27,25 @@ async function ensureChampionRole(guild, store, modeLabel, season) {
       permissions: [],
       mentionable: true,
       hoist: true, // se muestra aparte en la lista de miembros, para que se note
-      reason: 'Rol de campeón de temporada'
+      reason: `Rol de ${slot.title.toLowerCase()} de temporada`
     }).catch(() => null);
-    if (role) store.championRoleId = role.id;
+    if (role) store[slot.roleField] = role.id;
   }
 
   return role;
 }
 
+// Se mantiene por compatibilidad: el rol del campeón (1º).
+async function ensureChampionRole(guild, store, modeLabel, season) {
+  return ensurePodiumRole(guild, store, PODIUM_SLOTS[0], modeLabel, season);
+}
+
 /**
  * Corre justo ANTES de resetear el elo de una cola (necesita el elo tal
- * como está, no el ya reseteado). Si esa cola tiene el rol de campeón
- * activado, determina el top 3 por elo, actualiza/crea el rol y se lo
- * reasigna al nuevo n°1. Devuelve los datos del podio (o null si está
- * desactivado o todavía nadie jugó ahí).
+ * como está, no el ya reseteado). Determina el top 3 por elo y, si esa cola
+ * tiene los roles de campeón activados, crea/actualiza los 3 roles
+ * (🥇 1º, 🥈 2º, 🥉 3º) y se los reasigna a los nuevos ganadores.
+ * Devuelve los datos del podio (con los roles en roles.first/second/third).
  */
 async function awardChampionRole(guild, guildData, modeKey) {
   const store = modeKey ? guildData.modes[modeKey] : guildData;
@@ -46,34 +59,49 @@ async function awardChampionRole(guild, guildData, modeKey) {
 
   const modeLabel = modeKey ? (guildData.modes[modeKey]?.name || modeKey) : 'Cola por defecto';
   const season = guildData.season || 1; // la temporada que está terminando, no la que arranca
-  const champion = ranked[0] || null;
-  const podium = { modeLabel, season, first: champion, second: ranked[1] || null, third: ranked[2] || null };
+  const winners = { first: ranked[0] || null, second: ranked[1] || null, third: ranked[2] || null };
+  const podium = { modeLabel, season, ...winners };
 
   // Si nadie jugó, igual se devuelve un podio (vacío) para que el reset de
-  // ESTA cola siempre se anuncie. Sin ganador no hay rol ni @everyone.
-  // Tampoco hay rol/@everyone si la cola no tiene el rol de campeón activado
+  // ESTA cola siempre se anuncie. Sin ganador no hay roles ni @everyone.
+  // Tampoco hay roles/@everyone si la cola no tiene el rol de campeón activado
   // (/campeon_configurar): el podio sale igual.
-  if (!champion || !store.championEnabled) return { ...podium, role: null, hasChampionRole: false };
-
-  // Si algo falla con el rol de campeón (permisos, jerarquía), el podio se
-  // anuncia igual: no se pierde por eso.
-  let role = null;
-  try {
-    role = await ensureChampionRole(guild, store, modeLabel, season);
-    if (role) {
-      if (store.currentChampionId && store.currentChampionId !== champion.userId) {
-        const prevMember = await guild.members.fetch(store.currentChampionId).catch(() => null);
-        if (prevMember) await prevMember.roles.remove(role).catch(() => {});
-      }
-      const member = await guild.members.fetch(champion.userId).catch(() => null);
-      if (member) await member.roles.add(role).catch(() => {});
-      store.currentChampionId = champion.userId;
-    }
-  } catch (err) {
-    console.error('[campeon] No pude dar el rol de campeón:', err.message);
+  if (!winners.first || !store.championEnabled) {
+    return { ...podium, role: null, roles: {}, hasChampionRole: false };
   }
 
-  return { ...podium, role, hasChampionRole: true };
+  // Si algo falla con los roles (permisos, jerarquía), el podio se anuncia
+  // igual: no se pierde por eso. Cada puesto se maneja por separado.
+  const roles = {};
+  for (const slot of PODIUM_SLOTS) {
+    try {
+      const winner = winners[slot.key];
+      const role = await ensurePodiumRole(guild, store, slot, modeLabel, season);
+      roles[slot.key] = role;
+      if (!role) continue;
+
+      // Sacarle el rol a quien lo tenía antes (si cambió).
+      const prevId = store[slot.holderField];
+      if (prevId && (!winner || prevId !== winner.userId)) {
+        const prevMember = await guild.members.fetch(prevId).catch(() => null);
+        if (prevMember) await prevMember.roles.remove(role).catch(() => {});
+      }
+
+      // Dárselo al nuevo (si ese puesto tiene a alguien).
+      if (winner) {
+        const member = await guild.members.fetch(winner.userId).catch(() => null);
+        if (member) await member.roles.add(role).catch(() => {});
+        store[slot.holderField] = winner.userId;
+      } else {
+        store[slot.holderField] = null;
+      }
+    } catch (err) {
+      console.error(`[campeon] No pude dar el rol de ${slot.title}:`, err.message);
+    }
+  }
+
+  // "role" (singular) = el del campeón, por compatibilidad con código viejo.
+  return { ...podium, role: roles.first || null, roles, hasChampionRole: true };
 }
 
 /** Publica en #anuncios el podio (top 3) de la temporada que terminó. Con @everyone solo si ese modo tiene rol de campeón. */
@@ -95,9 +123,9 @@ async function announceChampions(client, guildData, result) {
       : `🏆 Podio de la Temporada ${result.season} — ${result.modeLabel}`)
     .setDescription(
       result.first
-        ? `${podiumLine('🥇', result.first)}${result.role ? ` — <@&${result.role.id}>` : ''}\n` +
-          `${podiumLine('🥈', result.second)}\n` +
-          `${podiumLine('🥉', result.third)}\n\n` +
+        ? `${podiumLine('🥇', result.first)}${result.roles?.first ? ` — <@&${result.roles.first.id}>` : ''}\n` +
+          `${podiumLine('🥈', result.second)}${result.roles?.second && result.second ? ` — <@&${result.roles.second.id}>` : ''}\n` +
+          `${podiumLine('🥉', result.third)}${result.roles?.third && result.third ? ` — <@&${result.roles.third.id}>` : ''}\n\n` +
           `¡Felicidades a todos!`
         : `Nadie jugó en **${result.modeLabel}** esta temporada.`
     )
@@ -114,4 +142,4 @@ async function announceChampions(client, guildData, result) {
   }
 }
 
-module.exports = { ensureChampionRole, awardChampionRole, announceChampions };
+module.exports = { ensureChampionRole, ensurePodiumRole, PODIUM_SLOTS, awardChampionRole, announceChampions };
