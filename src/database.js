@@ -42,7 +42,13 @@ function defaultGuild() {
     championEnabled: false,   // si esta cola le da un rol de "Campeón" al n°1 del elo cuando se resetea la temporada (ver utils/championRole.js)
     championColor: null,      // color elegido para ese rol (null = dorado por default)
     championRoleId: null,     // el rol en sí — se reutiliza y se renombra cada temporada, nunca se crea uno nuevo
-    currentChampionId: null   // quién lo tiene puesto ahora mismo, para sacárselo cuando cambie el campeón
+    currentChampionId: null,  // quién lo tiene puesto ahora mismo, para sacárselo cuando cambie el campeón
+    secondColor: null,        // color del rol 🥈 (2º puesto); null = plata por default
+    secondRoleId: null,       // rol del 2º puesto — igual que el del campeón, se reutiliza y se renombra cada temporada
+    currentSecondId: null,    // quién lo tiene ahora
+    thirdColor: null,         // color del rol 🥉 (3º puesto); null = bronce por default
+    thirdRoleId: null,        // rol del 3º puesto
+    currentThirdId: null      // quién lo tiene ahora
   };
 }
 
