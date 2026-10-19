@@ -20,7 +20,7 @@ function progressLine(ach, player) {
 
   const value = computeStat(player, ach.metric);
   const remaining = Math.max(0, ach.threshold - value);
-  const unit = ach.metric === 'elo' ? 'de Elo' : ach.metric === 'racha' ? 'de racha' : 'partidas jugadas';
+  const unit = ach.metric === 'elo' ? 'de Elo' : ach.metric === 'racha' ? 'de racha' : ach.metric === 'victorias' ? 'partidas ganadas' : 'partidas jugadas';
   return `🔒 ${roleTag} — ${Math.round(value)}/${ach.threshold} ${unit} — te faltan **${Math.ceil(remaining)}**`;
 }
 
