@@ -4,14 +4,16 @@ const { successEmbed, errorEmbed } = require('../utils/embeds');
 const { assertChannel } = require('../utils/channelGuard');
 const { isEloAdmin } = require('../handlers/resultManager');
 const { resolveModeKeyFromInput, autocompleteModo, storeForModeKey } = require('../utils/queueScope');
-const { parseColor, COLOR_NAMES_HELP } = require('../utils/color');
+const { parseColorList } = require('../utils/color');
+
+const hex = c => `#${Number(c).toString(16).padStart(6, '0').toUpperCase()}`;
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('campeon_configurar')
-    .setDescription('Elo Admin: activa/desactiva los roles de podio (🥇🥈🥉) de temporada y el color del campeón.')
-    .addBooleanOption(o => o.setName('activado').setDescription('¿Dar roles al top 3 (🥇 1º, 🥈 2º, 🥉 3º) cuando se resetee la temporada?').setRequired(true))
-    .addStringOption(o => o.setName('color').setDescription('Color del rol del campeón (hex como #FFD700, o un nombre como dorado/azul/rojo)').setRequired(false))
+    .setDescription('Elo Admin: activa/desactiva los roles de podio (🥇🥈🥉) de temporada y sus colores.')
+    .addBooleanOption(o => o.setName('activado').setDescription('¿Dar roles al top 3 (🥇 1º, 🥈 2º, 🥉 3º) al resetear la temporada?').setRequired(true))
+    .addStringOption(o => o.setName('colores').setDescription('3 colores con coma: 1º, 2º, 3º (ej. amarillo, azul, verde; o hex #FFD700)').setRequired(false))
     .addStringOption(o => o.setName('modo').setDescription('En qué cola/modo (si hay más de una)').setRequired(false).setAutocomplete(true)),
 
   async autocomplete(interaction) {
@@ -27,16 +29,16 @@ module.exports = {
     }
 
     const activado = interaction.options.getBoolean('activado');
-    const colorInput = interaction.options.getString('color');
-    let color = null;
+    const colorInput = interaction.options.getString('colores');
+
+    // "amarillo, azul, verde" -> [🥇 1º, 🥈 2º, 🥉 3º]. Se piden mínimo 3.
+    let colors = null;
     if (colorInput) {
-      color = parseColor(colorInput);
-      if (color === null) {
-        return interaction.reply({
-          embeds: [errorEmbed(`Ese color no lo reconozco. Usá un hex (ej. \`#FFD700\`) o uno de estos nombres: ${COLOR_NAMES_HELP}.`)],
-          ephemeral: true
-        });
+      const parsed = parseColorList(colorInput, 3);
+      if (!parsed.ok) {
+        return interaction.reply({ embeds: [errorEmbed(parsed.message)], ephemeral: true });
       }
+      colors = parsed.colors;
     }
 
     const resolved = resolveModeKeyFromInput(guildData, interaction.options.getString('modo'));
@@ -46,15 +48,31 @@ module.exports = {
 
     const store = storeForModeKey(guildData, resolved.modeKey);
     store.championEnabled = activado;
-    if (color !== null) store.championColor = color;
+
+    if (colors) {
+      store.championColor = colors[0];
+      store.secondColor = colors[1];
+      store.thirdColor = colors[2];
+      // Si los roles ya existen, se les cambia el color ahora mismo;
+      // si no, se aplica cuando se creen en el próximo reset de temporada.
+      const ids = [store.championRoleId, store.secondRoleId, store.thirdRoleId];
+      for (let i = 0; i < 3; i++) {
+        if (!ids[i]) continue;
+        const role = await interaction.guild.roles.fetch(ids[i]).catch(() => null);
+        if (role) await role.edit({ color: colors[i] }).catch(() => {});
+      }
+    }
     saveGuild(interaction.guildId, guildData);
 
-    const colorNote = color !== null ? ` (color actualizado)` : '';
+    const colorNote = colors
+      ? `\nColores: 🥇 \`${hex(colors[0])}\` · 🥈 \`${hex(colors[1])}\` · 🥉 \`${hex(colors[2])}\``
+      : '';
+
     await interaction.reply({
       embeds: [successEmbed(
         activado
-          ? `Listo — **${resolved.label}** le va a dar el rol 🏆 Campeón al n°1 de elo cada vez que se use \`/reset_season\` ahí${colorNote}.`
-          : `Listo — **${resolved.label}** ya NO da roles de podio al resetear la temporada.`
+          ? `Listo — **${resolved.label}** va a dar los roles 🥇 Campeón, 🥈 Subcampeón y 🥉 3er lugar al top 3 de Elo cada vez que se use \`/reset_season\` ahí.${colorNote}`
+          : `Listo — **${resolved.label}** ya NO da roles de podio al resetear la temporada.${colorNote}`
       )]
     });
   }
