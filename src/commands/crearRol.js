@@ -26,7 +26,7 @@ const METRIC_LABELS = {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('crear_rol')
-    .setDescription('Elo Admin: crea un rol que se otorga al llegar a cierto Elo, racha, win rate, partidas jugadas o partidas ganadas.')
+    .setDescription('Elo Admin: crea un rol por Elo, racha, win rate, partidas jugadas o partidas ganadas.')
     .addStringOption(o => o.setName('nombre').setDescription('Nombre del rol (ej. Aprendiz, Farmer, PRIME)').setRequired(true).setMaxLength(32))
     .addStringOption(o => o.setName('metrica').setDescription('Qué se mide para dar el rol').setRequired(true)
       .addChoices(
@@ -36,7 +36,7 @@ module.exports = {
         { name: 'Partidas jugadas', value: 'partidas' },
         { name: 'Partidas ganadas (victorias)', value: 'victorias' }
       ))
-    .addIntegerOption(o => o.setName('meta').setDescription('Número a alcanzar (ej. 500 de elo, 5 de racha, 80 = 80% de WR, 100 partidas jugadas, 50 partidas ganadas)').setRequired(true).setMinValue(1))
+    .addIntegerOption(o => o.setName('meta').setDescription('Número a alcanzar (ej. 500 de elo, 5 de racha, 80 = 80% de WR, 50 victorias)').setRequired(true).setMinValue(1))
     .addStringOption(o => o.setName('color').setDescription('Color del rol (hex como #57F287, o un nombre como verde/azul/rojo)').setRequired(true))
     .addIntegerOption(o => o.setName('minimo_partidas').setDescription('Solo para win rate: partidas mínimas jugadas para calificar').setRequired(false).setMinValue(1))
     .addStringOption(o => o.setName('categoria').setDescription('Categoría de rareza (opcional)').setRequired(false).setAutocomplete(true))
