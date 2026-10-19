@@ -42,4 +42,29 @@ function parseColor(input) {
 
 const COLOR_NAMES_HELP = Object.keys(NAMED_COLORS).join(', ');
 
-module.exports = { parseColor, COLOR_NAMES_HELP };
+// Para los roles de podio: "amarillo, azul, verde" -> [1º, 2º, 3º].
+// Pide mínimo 3 colores separados por coma (si ponen más, se ignoran los
+// de sobra). Devuelve { ok:true, colors:[a,b,c] } o { ok:false, message }.
+function parseColorList(input, count = 3) {
+  const parts = String(input || '').split(',').map(p => p.trim()).filter(Boolean);
+  if (parts.length < count) {
+    return {
+      ok: false,
+      message: `Tenés que poner ${count} colores separados por coma, en orden 🥇 1º, 🥈 2º, 🥉 3º (ej. \`amarillo, azul, verde\`). Pusiste ${parts.length}.`
+    };
+  }
+  const colors = [];
+  for (let i = 0; i < count; i++) {
+    const c = parseColor(parts[i]);
+    if (c === null) {
+      return {
+        ok: false,
+        message: `No reconozco el color n°${i + 1}: \`${parts[i]}\`. Usá un hex (ej. \`#FFD700\`) o uno de estos nombres: ${COLOR_NAMES_HELP}.`
+      };
+    }
+    colors.push(c);
+  }
+  return { ok: true, colors };
+}
+
+module.exports = { parseColor, parseColorList, COLOR_NAMES_HELP };
