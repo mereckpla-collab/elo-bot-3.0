@@ -3,7 +3,7 @@ const { getGuild, saveGuild } = require('../database');
 const { successEmbed, errorEmbed } = require('../utils/embeds');
 const { assertChannel } = require('../utils/channelGuard');
 const { RAINBOW_ROLE_NAME, RAINBOW_INTERVAL_MS } = require('../config');
-const { startRainbow, hslToInt, placeOnTop } = require('../utils/rainbowRole');
+const { startRainbow, hslToInt, placeOnTop, getStatus } = require('../utils/rainbowRole');
 const { isBotOwner } = require('../utils/vip');
 
 // Dueño del bot: quien figura como OWNER_ID en el .env, o el dueño real de la
@@ -39,7 +39,8 @@ module.exports = {
       .addUserOption(o => o.setName('usuario').setDescription('A quién se lo pones').setRequired(true)))
     .addSubcommand(sc => sc.setName('quitar').setDescription('Le quita el rol rainbow a alguien.')
       .addUserOption(o => o.setName('usuario').setDescription('A quién se lo quitas').setRequired(true)))
-    .addSubcommand(sc => sc.setName('subir').setDescription('Sube el rol rainbow arriba de todo (lo más alto que pueda el bot).')),
+    .addSubcommand(sc => sc.setName('subir').setDescription('Sube el rol rainbow arriba de todo (lo más alto que pueda el bot).'))
+    .addSubcommand(sc => sc.setName('estado').setDescription('Muestra si el rainbow está cambiando de color y, si no, por qué.')),
 
   async execute(interaction) {
     const guildData = getGuild(interaction.guildId);
@@ -108,6 +109,25 @@ module.exports = {
     const role = await currentRole(guild, guildData);
     if (!role) {
       return interaction.reply({ embeds: [errorEmbed('Todavía no hay rol rainbow. Créalo con `/rainbow crear`.')], ephemeral: true });
+    }
+
+    if (sub === 'estado') {
+      let status = getStatus(interaction.guildId);
+      let restarted = false;
+      if (!status) { startRainbow(interaction.client, interaction.guildId); restarted = true; status = getStatus(interaction.guildId); }
+      const botTop = guild.members.me?.roles?.highest;
+      const lines = [
+        `Rol: <@&${role.id}> (posición ${role.position}${botTop ? `; mi rol **${botTop.name}** está en la ${botTop.position}` : ''})`,
+        `Cambiando de color: ${restarted ? '**estaba parado — lo reinicié ahora**' : (status?.lastError ? '⚠️ con problemas' : '✅ sí')}`,
+        `Último cambio de color: ${status?.lastOk ? `<t:${Math.floor(status.lastOk / 1000)}:R>` : 'todavía ninguno'}`,
+        `Espera entre cambios: ${Math.round((status?.delay || RAINBOW_INTERVAL_MS) / 1000)} s`,
+        `Último error: ${status?.lastError || 'ninguno'}`,
+        `Personas con el rol: ${(guildData.rainbow.holders || []).length}`
+      ];
+      if (botTop && role.position >= botTop.position) {
+        lines.push('', '⚠️ El 🌈 está **igual o más arriba que mi rol**: así no puedo cambiarle el color. Sube mi rol por encima en *Ajustes del servidor → Roles*.');
+      }
+      return interaction.reply({ embeds: [(status?.lastError ? errorEmbed : successEmbed)(lines.join('\n'))], ephemeral: true });
     }
 
     if (sub === 'subir') {
