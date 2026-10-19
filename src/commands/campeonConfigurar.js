@@ -9,7 +9,7 @@ const { parseColor, COLOR_NAMES_HELP } = require('../utils/color');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('campeon_configurar')
-    .setDescription('Elo Admin: activa/desactiva los roles de podio (🥇🥈🥉) de temporada en una cola, y el color del de campeón.')
+    .setDescription('Elo Admin: activa/desactiva los roles de podio (🥇🥈🥉) de temporada y el color del campeón.')
     .addBooleanOption(o => o.setName('activado').setDescription('¿Dar roles al top 3 (🥇 1º, 🥈 2º, 🥉 3º) cuando se resetee la temporada?').setRequired(true))
     .addStringOption(o => o.setName('color').setDescription('Color del rol del campeón (hex como #FFD700, o un nombre como dorado/azul/rojo)').setRequired(false))
     .addStringOption(o => o.setName('modo').setDescription('En qué cola/modo (si hay más de una)').setRequired(false).setAutocomplete(true)),
