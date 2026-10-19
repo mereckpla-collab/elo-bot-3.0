@@ -3,6 +3,7 @@ const { resultEmbed, resultButtons, gameAnnouncementEmbed, errorEmbed, joinNextQ
 const { applyGameResult, applyRankedGameResult, revertGameResult } = require('../utils/elo');
 const { scheduleThreadDeletion } = require('../utils/threadCleanup');
 const { checkAndGrantAchievements } = require('./achievements');
+const { ADMIN_ROLE_NAME } = require('../config');
 
 /**
  * Publica el embed para votar el resultado. Se publica en el mismo hilo que
@@ -94,8 +95,22 @@ function findQueueBlockingGame(guildData, userId, modeKey) {
 }
 
 function isEloAdmin(interaction, guildData) {
-  if (!guildData.adminRoleId) return false;
-  return interaction.member?.roles?.cache?.has(guildData.adminRoleId);
+  const roles = interaction.member?.roles?.cache;
+  if (!roles) return false;
+
+  // 1) Camino normal: el rol guardado en la base de datos al hacer /install.
+  if (guildData.adminRoleId && roles.has(guildData.adminRoleId)) return true;
+
+  // 2) Respaldo: si el ID guardado quedó viejo/nulo (rol borrado y recreado,
+  //    base de datos reiniciada, instalación antigua...), se busca por nombre
+  //    el rol "Elo Admin" que la persona realmente tiene, y se repara el ID.
+  const byName = roles.find(r => r.name === ADMIN_ROLE_NAME);
+  if (byName) {
+    guildData.adminRoleId = byName.id;
+    saveGuild(interaction.guildId, guildData);
+    return true;
+  }
+  return false;
 }
 
 async function handleVote(client, interaction, guildData, gameId, choice) {
