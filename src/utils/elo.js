@@ -1,42 +1,82 @@
-const { ELO_START, ELO_FLOOR, MAX_LOSS, WIN_BASE_ELO, LOSS_BASE_ELO } = require('../config');
+const { ELO_START, ELO_FLOOR } = require('../config');
+const C = require('../eloConfig');
 
 /**
- * Ya NO hay bonus fijo para el primer partido de un jugador (antes daba
- * ±12 siempre, sin importar el rival) — ahora el primer partido se calcula
- * exactamente igual que cualquier otro, con el mismo diff/streak de siempre.
+ * Elo estilo "clásico" (probabilidad de ganar), con ajustes para 4v4:
  *
- * Balance ganar/perder: ganar da más de lo que perder cuesta (WIN_BASE_ELO
- * > LOSS_BASE_ELO en config.js), así que en partidas parejas el jugador
- * gana más de lo que arriesga a perder.
+ *  1) Se calcula la probabilidad esperada de que tu equipo gane según el
+ *     promedio de Elo de cada equipo. Ganar siendo el favorito da poco;
+ *     ganar siendo el "underdog" da mucho. Perder siendo el favorito cuesta
+ *     mucho; perder siendo el underdog cuesta poco. Empatar también mueve
+ *     puntos si los equipos eran desparejos.
+ *  2) El K (cuánto se puede mover) depende de cuántas partidas llevas: los
+ *     nuevos suben/bajan rápido, los veteranos son más estables.
+ *  3) Rachas: ganar seguido suma un % extra a lo que ganas; perder cuando
+ *     venías con racha de 3+ victorias cuesta un % extra. Perder seguido NO
+ *     te castiga extra: desde la 3ª derrota seguida cada una te quita menos.
  *
- * La racha SOLO da bonus cuando es positiva y estás ganando (racha anterior
- * × 2, tope 15) — venir de una racha negativa y perder NO te castiga extra,
- * la pérdida es siempre la misma base según la diferencia de elo entre
- * equipos, sin importar tu racha.
+ *  2) (Ajuste personal) Tu Elo contra el promedio de la partida: si estás
+ *     por debajo ganas más y pierdes menos; si estás por encima, al revés.
+ *
+ *  4) Impulso en rangos bajos: ganas más y pierdes menos mientras tu Elo es
+ *     bajo; se apaga solo al acercarte a BOOST_UNTIL.
+ *
+ * Todos los números viven en src/eloConfig.js.
  */
+function expectedScore(teamAvgElo, opponentAvgElo) {
+  return 1 / (1 + Math.pow(10, (opponentAvgElo - teamAvgElo) / C.ELO_SCALE));
+}
+
+function kFactor(gamesPlayed) {
+  const n = gamesPlayed || 0;
+  for (const tier of C.K_TIERS) if (n < tier.upTo) return tier.k;
+  return C.K_TIERS[C.K_TIERS.length - 1].k;
+}
+
+function clamp(v, lo, hi) {
+  return Math.min(Math.max(v, lo), hi);
+}
+
 function calculateEloChange({ player, teamAvgElo, opponentAvgElo, won, draw }) {
-  if (draw) return 0;
+  const expected = expectedScore(teamAvgElo, opponentAvgElo);
+  const score = draw ? 0.5 : won ? 1 : 0;
+  let delta = kFactor(player.gamesPlayed) * (score - expected);
+  if (delta === 0) return 0;
 
-  const diff = opponentAvgElo - teamAvgElo; // positivo = rival más fuerte
-  const streak = player.streak || 0;
+  const playerElo = typeof player.elo === 'number' ? player.elo : 0;
 
-  if (won) {
-    let base = WIN_BASE_ELO + diff / 20;
-    base = Math.max(5, base);
-
-    const streakBonus = streak > 0 ? Math.min(streak * 2, 15) : 0;
-    let gain = base + streakBonus;
-
-    if (diff < -100 && streak < 3) {
-      gain = Math.max(4, gain * 0.35);
-    }
-
-    return Math.round(gain);
+  // 2) Ajuste personal: tu Elo contra el promedio de la partida. Por debajo
+  //    del promedio ganas más y pierdes menos; por encima, al revés.
+  if (!draw) {
+    const lobbyAvg = (teamAvgElo + opponentAvgElo) / 2;
+    const offset = clamp((lobbyAvg - playerElo) / C.PERSONAL_SCALE, -C.PERSONAL_MAX, C.PERSONAL_MAX);
+    delta *= won ? 1 + offset : 1 - offset;
   }
 
-  let loss = LOSS_BASE_ELO - diff / 25;
-  loss = Math.min(Math.max(loss, 3), MAX_LOSS);
-  return -Math.round(loss);
+  // 3) Rachas.
+  const streak = player.streak || 0;
+  if (!draw) {
+    if (won && streak > 0) {
+      delta *= 1 + Math.min(streak * C.STREAK_WIN_STEP, C.STREAK_WIN_MAX);
+    } else if (!won && streak >= C.STREAK_BREAK_MIN) {
+      delta *= 1 + Math.min((streak - C.STREAK_BREAK_MIN + 1) * C.STREAK_BREAK_STEP, C.STREAK_BREAK_MAX);
+    } else if (!won && streak <= -C.LOSS_RELIEF_MIN) {
+      // Ya venías perdiendo: cada derrota seguida (desde la 3ª) cuesta menos.
+      const lossesInRow = -streak - C.LOSS_RELIEF_MIN + 1;
+      delta *= 1 - Math.min(lossesInRow * C.LOSS_RELIEF_STEP, C.LOSS_RELIEF_MAX);
+    }
+  }
+
+  // 4) Impulso en rangos bajos: con poco Elo ganas más y pierdes menos, y el
+  //    efecto se apaga solo al llegar a BOOST_UNTIL. Así subir los primeros
+  //    rangos es rápido, y los rangos altos miden nivel real.
+  const fade = clamp(1 - playerElo / C.BOOST_UNTIL, 0, 1);
+  delta *= delta > 0 ? 1 + (C.BOOST_WIN - 1) * fade : 1 - (1 - C.BOOST_LOSS) * fade;
+
+  delta = clamp(delta, -C.MAX_LOSS, C.MAX_GAIN);
+  const rounded = Math.round(delta);
+  if (!draw && rounded === 0) return won ? C.MIN_CHANGE : -C.MIN_CHANGE;
+  return rounded;
 }
 
 function avgElo(players) {
