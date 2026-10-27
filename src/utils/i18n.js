@@ -46,6 +46,7 @@ const STRINGS = {
 // 25 campos por embed, por más comandos que se sigan agregando.
 const COMMAND_CATEGORIES = {
   '/queue': 'players',
+  '/salir': 'players',
   '/rename': 'players',
   '/logros': 'players',
   '/logros_progreso': 'players',
@@ -135,7 +136,8 @@ const CATEGORY_ORDER = ['players', 'admin_queue', 'admin_config', 'owner'];
 
 const COMMAND_DESCRIPTIONS = {
   es: {
-    '/queue': 'Baja el mensaje de la cola al final del canal, para que no se pierda entre otros mensajes.',
+    '/queue': 'Te une a la cola del canal donde lo escribes (igual que el botón "Unirse").',
+    '/salir': 'Te saca de la cola del canal donde lo escribes (igual que el botón "Salir").',
     '/rename': 'Cambia el nombre con el que aparecés en el bot — se actualiza en todas las colas donde ya jugaste.',
     '/logros': 'Ve los logros/roles que ya conseguiste, o los de otra persona.',
     '/logros_progreso': 'Ve qué te falta (a vos o a otra persona) para conseguir cada logro.',
@@ -205,7 +207,7 @@ const COMMAND_DESCRIPTIONS = {
     '/crear_categoria': 'Elo Admin: crea una categoría de rareza para agrupar roles (ej. Raro, Exótico, Legendario).',
     '/eliminar_categoria': 'Elo Admin: elimina una categoría de roles (los roles que tenía quedan sin categoría).',
     '/ver_categorias': 'Ve las categorías de roles configuradas en una cola/modo.',
-    '/crear_rol': 'Elo Admin: crea un rol que se otorga al llegar a cierto Elo, racha, win rate o partidas jugadas.',
+    '/crear_rol': 'Elo Admin: crea un rol que se otorga al llegar a cierto Elo, racha, win rate, partidas jugadas o partidas ganadas.',
     '/eliminar_rol': 'Elo Admin: elimina un rol de logro (y el rol de Discord asociado).',
     '/ver_roles': 'Ve los roles de logro configurados en una cola/modo.',
     '/temporada': 'Ve o cambia la temporada actual del servidor (compartida por todas las colas/modos).',
@@ -221,7 +223,8 @@ const COMMAND_DESCRIPTIONS = {
     '/vip status': 'Muestra el plan VIP actual de este servidor y cuándo vence.'
   },
   en: {
-    '/queue': 'Moves the queue message to the bottom of the channel, so it doesn\'t get lost among other messages.',
+    '/queue': 'Joins the queue of the channel you type it in (same as the "Join" button).',
+    '/salir': 'Leaves the queue of the channel you type it in (same as the "Leave" button).',
     '/rename': 'Changes the name you show up with in the bot — updates it in every queue where you\'ve already played.',
     '/logros': 'Shows the achievements/roles you (or someone else) already earned.',
     '/logros_progreso': 'Shows what you (or someone else) still need to earn each achievement.',
@@ -291,7 +294,7 @@ const COMMAND_DESCRIPTIONS = {
     '/crear_categoria': 'Elo Admin: creates a rarity category to group roles (e.g. Rare, Exotic, Legendary).',
     '/eliminar_categoria': 'Elo Admin: deletes a role category (its roles become uncategorized).',
     '/ver_categorias': 'Shows the role categories configured in a queue/mode.',
-    '/crear_rol': 'Elo Admin: creates a role granted on reaching a certain Elo, streak, win rate or games played.',
+    '/crear_rol': 'Elo Admin: creates a role granted on reaching a certain Elo, streak, win rate, games played or games won.',
     '/eliminar_rol': 'Elo Admin: deletes an achievement role (and its Discord role).',
     '/ver_roles': 'Shows the achievement roles configured in a queue/mode.',
     '/temporada': 'Shows or changes the server\'s current season (shared by every queue/mode).',
@@ -307,7 +310,8 @@ const COMMAND_DESCRIPTIONS = {
     '/vip status': 'Shows this server\'s current VIP plan and when it expires.'
   },
   pt: {
-    '/queue': 'Move a mensagem da fila para o final do canal, para que não se perca entre outras mensagens.',
+    '/queue': 'Entra na fila do canal onde você digitar (igual ao botão "Entrar").',
+    '/salir': 'Sai da fila do canal onde você digitar (igual ao botão "Sair").',
     '/rename': 'Muda o nome com que você aparece no bot — atualiza em todas as filas onde você já jogou.',
     '/logros': 'Mostra as conquistas/cargos que você (ou outra pessoa) já conseguiu.',
     '/logros_progreso': 'Mostra o que falta para você (ou outra pessoa) conseguir cada conquista.',
@@ -377,7 +381,7 @@ const COMMAND_DESCRIPTIONS = {
     '/crear_categoria': 'Elo Admin: cria uma categoria de raridade para agrupar cargos (ex. Raro, Exótico, Lendário).',
     '/eliminar_categoria': 'Elo Admin: apaga uma categoria de cargos (os cargos dela ficam sem categoria).',
     '/ver_categorias': 'Mostra as categorias de cargos configuradas em uma fila/modo.',
-    '/crear_rol': 'Elo Admin: cria um cargo concedido ao atingir certo Elo, sequência, win rate ou partidas jogadas.',
+    '/crear_rol': 'Elo Admin: cria um cargo concedido ao atingir certo Elo, sequência, win rate, partidas jogadas ou partidas ganhas.',
     '/eliminar_rol': 'Elo Admin: apaga um cargo de conquista (e o cargo do Discord associado).',
     '/ver_roles': 'Mostra os cargos de conquista configurados em uma fila/modo.',
     '/temporada': 'Mostra ou muda a temporada atual do servidor (compartilhada por todas as filas/modos).',
@@ -393,7 +397,8 @@ const COMMAND_DESCRIPTIONS = {
     '/vip status': 'Mostra o plano VIP atual deste servidor e quando ele vence.'
   },
   fr: {
-    '/queue': 'Déplace le message de la file d\'attente en bas du canal, pour qu\'il ne se perde pas parmi les autres messages.',
+    '/queue': 'Te fait rejoindre la file du salon où tu l\'écris (comme le bouton « Rejoindre »).',
+    '/salir': 'Te fait quitter la file du salon où tu l\'écris (comme le bouton « Quitter »).',
     '/rename': 'Change le nom sous lequel tu apparais dans le bot — mis à jour dans toutes les files où tu as déjà joué.',
     '/logros': 'Affiche les succès/rôles que toi (ou quelqu\'un d\'autre) as déjà obtenus.',
     '/logros_progreso': 'Affiche ce qu\'il te manque (ou à quelqu\'un d\'autre) pour chaque succès.',
@@ -463,7 +468,7 @@ const COMMAND_DESCRIPTIONS = {
     '/crear_categoria': 'Elo Admin : crée une catégorie de rareté pour regrouper des rôles (ex. Rare, Exotique, Légendaire).',
     '/eliminar_categoria': 'Elo Admin : supprime une catégorie de rôles (ses rôles deviennent sans catégorie).',
     '/ver_categorias': 'Affiche les catégories de rôles configurées dans une file/mode.',
-    '/crear_rol': 'Elo Admin : crée un rôle accordé en atteignant un certain Elo, série, win rate ou parties jouées.',
+    '/crear_rol': 'Elo Admin : crée un rôle accordé en atteignant un certain Elo, série, win rate, parties jouées ou parties gagnées.',
     '/eliminar_rol': 'Elo Admin : supprime un rôle de succès (et le rôle Discord associé).',
     '/ver_roles': 'Affiche les rôles de succès configurés dans une file/mode.',
     '/temporada': 'Affiche ou change la saison actuelle du serveur (partagée par toutes les files/modes).',
