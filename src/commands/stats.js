@@ -3,6 +3,7 @@ const { getGuild, saveGuild, getOrCreatePlayer, healAllBrokenNames } = require('
 const { errorEmbed, successEmbed, playerStatsEmbed, leaderboardEmbed, leaderboardComponents } = require('../utils/embeds');
 const { assertChannel } = require('../utils/channelGuard');
 const { isEloAdmin } = require('../handlers/resultManager');
+const { checkAndGrantAchievements } = require('../handlers/achievements');
 const { COLOR_PRIMARY, ELO_FLOOR } = require('../config');
 const { gameEmbed, historyEmbed, matchupEmbed, serverEmbed, teamGraphEmbed } = require('../utils/statsExtra');
 
@@ -107,7 +108,7 @@ const STAT_FIELDS = {
   'best-elo': 'bestElo', 'worst-elo': 'worstElo'
 };
 const STAT_LABEL = {
-  wins: 'Wins', losses: 'Losses', draws: 'Empates', games: 'Partidas jugadas',
+  wins: 'Partidas ganadas (wins)', losses: 'Partidas perdidas (losses)', draws: 'Empates', games: 'Partidas jugadas',
   streak: 'Racha actual', 'best-streak': 'Mejor racha', 'worst-streak': 'Peor racha',
   'best-elo': 'Mejor elo', 'worst-elo': 'Peor elo'
 };
@@ -117,6 +118,19 @@ function validateStat(key, value) {
   if (['wins', 'losses', 'draws', 'games', 'best-streak'].includes(key) && value < 0) return `${STAT_LABEL[key]} no puede ser negativo.`;
   if (key === 'worst-streak' && value > 0) return 'La peor racha se guarda en negativo (o 0).';
   return null;
+}
+
+// Después de editar elo/stats a mano se revisan los logros y rangos de esa
+// persona al instante: si con el cambio llegó a un rango, rol o logro nuevo
+// (racha, partidas jugadas, partidas ganadas, win rate, elo...), se le da el
+// rol y sale el anuncio en #anuncios, igual que si lo hubiera ganado jugando.
+async function syncAchievementsAfterEdit(interaction, economy, userId) {
+  const modeKey = economy.key && economy.key !== 'default' ? economy.key : null;
+  try {
+    await checkAndGrantAchievements(interaction.client, interaction.guildId, modeKey, [userId]);
+  } catch (err) {
+    console.error('[logros] No pude revisar los logros después de /stats edit:', err.message);
+  }
 }
 
 const modoOpt = o => o.setName('modo').setDescription('En qué cola/modo (si hay más de una)').setRequired(false).setAutocomplete(true);
@@ -343,14 +357,16 @@ async function handleEdit(interaction, guildData, sub, modoKey) {
     const before = player.elo;
     player.elo = Math.max(ELO_FLOOR, sub === 'add-points' ? before + points : before - points);
     saveGuild(interaction.guildId, guildData);
-    return interaction.reply({ embeds: [successEmbed(`Elo de <@${target.id}>${scopeText} cambiado por ${by}: ${before} -> ${player.elo}`)] });
+    await interaction.reply({ embeds: [successEmbed(`Elo de <@${target.id}>${scopeText} cambiado por ${by}: ${before} -> ${player.elo}`)] });
+    return syncAchievementsAfterEdit(interaction, economy, target.id);
   }
 
   if (sub === 'points') {
     const before = player.elo;
     player.elo = Math.max(ELO_FLOOR, interaction.options.getInteger('puntos'));
     saveGuild(interaction.guildId, guildData);
-    return interaction.reply({ embeds: [successEmbed(`Elo de <@${target.id}>${scopeText} fijado por ${by}: ${before} -> ${player.elo}`)] });
+    await interaction.reply({ embeds: [successEmbed(`Elo de <@${target.id}>${scopeText} fijado por ${by}: ${before} -> ${player.elo}`)] });
+    return syncAchievementsAfterEdit(interaction, economy, target.id);
   }
 
   // 'stat' (una) y 'stats' (varias)
@@ -387,5 +403,6 @@ async function handleEdit(interaction, guildData, sub, modoKey) {
     }
   }
   saveGuild(interaction.guildId, guildData);
-  return interaction.reply({ embeds: [successEmbed(`Stats de <@${target.id}>${scopeText} editadas por ${by}:\n${lines.join('\n')}`)] });
+  await interaction.reply({ embeds: [successEmbed(`Stats de <@${target.id}>${scopeText} editadas por ${by}:\n${lines.join('\n')}`)] });
+  return syncAchievementsAfterEdit(interaction, economy, target.id);
 }
