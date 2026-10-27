@@ -57,5 +57,6 @@ if (!process.env.DISCORD_TOKEN) {
 
 const { startPolling } = require('./utils/mrhost');
 startPolling();
+   require('./utils/webSync').start();
 
 client.login(process.env.DISCORD_TOKEN);
