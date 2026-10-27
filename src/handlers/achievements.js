@@ -3,6 +3,26 @@ const { getGuild, saveGuild } = require('../database');
 const { getRankForElo, rankIndex, rankBadge } = require('../utils/ranks');
 const { RANKS } = require('../config');
 
+
+// Guarda SOLO lo que los logros/rangos tocaron de cada jugador, sobre una
+// copia fresca de la base. Esta función hace varias esperas (roles, anuncios,
+// DMs) y, si al final se guardaba la copia vieja completa, se pisaban cosas
+// que pasaron mientras tanto (colas, partidas en draft, etc.).
+const PLAYER_FIELDS = ['achievements', 'currentEloRole', 'currentNegRole', 'currentRank', 'rankHistory'];
+
+function saveMerged(guildId, modeKey, workingStore, userIds) {
+  const fresh = getGuild(guildId);
+  const freshStore = modeKey ? fresh.modes[modeKey] : fresh;
+  if (!freshStore || !freshStore.players) return;
+  for (const userId of userIds) {
+    const src = workingStore.players[userId];
+    const dst = freshStore.players[userId];
+    if (!src || !dst) continue;
+    for (const f of PLAYER_FIELDS) if (src[f] !== undefined) dst[f] = src[f];
+  }
+  saveGuild(guildId, fresh);
+}
+
 /** El valor actual del jugador para esa métrica. */
 function computeStat(player, metric) {
   switch (metric) {
@@ -260,7 +280,7 @@ async function checkRankUps(client, guildId, modeKey, userIds) {
     }
   }
 
-  if (changed) saveGuild(guildId, guildData);
+  if (changed) saveMerged(guildId, modeKey, store, userIds);
 }
 
 async function checkAndGrantAchievements(client, guildId, modeKey, userIds) {
@@ -442,7 +462,7 @@ async function checkAndGrantAchievements(client, guildId, modeKey, userIds) {
     }
   }
 
-  if (changed) saveGuild(guildId, guildData);
+  if (changed) saveMerged(guildId, modeKey, store, userIds);
 }
 
 module.exports = { checkAndGrantAchievements, checkRankUps, computeStat, statLabel, earnedSeasons };
