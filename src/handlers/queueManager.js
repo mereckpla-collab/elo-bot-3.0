@@ -6,6 +6,7 @@ const { getQueueTimeoutMs } = require('../utils/modeTimers');
 const { startDraft, peekNextGameNumber } = require('./draftManager');
 const { findQueueBlockingGame } = require('./resultManager');
 const { tagSeasonParticipant } = require('../utils/seasonDivider');
+const { withLock } = require('../utils/guildLock');
 
 // Timers de inactividad en memoria: `${guildId}:${modeKey||'_default'}` -> userId -> Timeout
 const inactivityTimers = new Map();
@@ -88,13 +89,31 @@ function armTimer(client, guildId, channel, userId, modeKey) {
   inactivityTimers.get(bucketKey).set(userId, t);
 }
 
-async function refreshQueueMessage(client, guildId, activityText, bump = false, modeKey = null) {
+// El refresco del mensaje de la cola se hace de a uno por cola (si dos
+// refrescos con "bajar mensaje" corrían a la vez, cada uno mandaba su propio
+// mensaje y quedaban 2 colas en el canal: una real y otra "huérfana").
+function refreshQueueMessage(client, guildId, activityText, bump = false, modeKey = null) {
+  return withLock(`msg:${timerBucketKey(guildId, modeKey)}`, () =>
+    doRefreshQueueMessage(client, guildId, activityText, bump, modeKey)
+  );
+}
+
+async function doRefreshQueueMessage(client, guildId, activityText, bump, modeKey) {
+  const first = getGuild(guildId);
+  const firstStore = getStore(first, modeKey);
+  if (!firstStore) return;
+  const firstRef = modeKey ? firstStore.queueMessage : first.queueMessage;
+  if (!firstRef) return;
+  const channel = await client.channels.fetch(firstRef.channelId).catch(() => null);
+  if (!channel) return;
+
+  // Se vuelve a leer la base ya con el canal en la mano, para que el embed
+  // muestre la cola tal cual está AHORA (y no como estaba hace un momento).
   const guildData = getGuild(guildId);
   const store = getStore(guildData, modeKey);
+  if (!store) return;
   const queueMessage = modeKey ? store.queueMessage : guildData.queueMessage;
   if (!queueMessage) return;
-  const channel = await client.channels.fetch(queueMessage.channelId).catch(() => null);
-  if (!channel) return;
 
   const total = getTotalPlayers(guildData, modeKey);
   const modeLabel = modeKey ? guildData.modes[modeKey].name : null;
@@ -107,126 +126,211 @@ async function refreshQueueMessage(client, guildId, activityText, bump = false, 
   if (bump) {
     const old = await channel.messages.fetch(queueMessage.messageId).catch(() => null);
     if (old) await old.delete().catch(() => {});
-    const msg = await channel.send({ embeds: [embed], components });
-    if (modeKey) store.queueMessage.messageId = msg.id;
-    else guildData.queueMessage.messageId = msg.id;
-    saveGuild(guildId, guildData);
+    const msg = await channel.send({ embeds: [embed], components }).catch(() => null);
+    if (!msg) return;
+    // Se guarda el id del mensaje nuevo sobre una copia FRESCA de la base:
+    // guardar la que se leyó antes pisaba lo que otros hicieron mientras tanto.
+    const fresh = getGuild(guildId);
+    const freshStore = getStore(fresh, modeKey);
+    const freshRef = modeKey ? freshStore?.queueMessage : fresh.queueMessage;
+    if (freshRef) {
+      freshRef.messageId = msg.id;
+      saveGuild(guildId, fresh);
+    }
   } else {
     const msg = await channel.messages.fetch(queueMessage.messageId).catch(() => null);
     if (msg) await msg.edit({ embeds: [embed], components }).catch(() => {});
   }
 }
 
-async function joinQueue(client, interaction, guildData, modeKey = null) {
+// --- Responder a un botón O a un slash command (/queue, /salir) -------------
+// Se confirma la interacción de inmediato (Discord da solo 3 segundos) y
+// después se trabaja con calma, por turnos.
+async function ackInteraction(interaction) {
+  if (interaction.deferred || interaction.replied) return;
+  try {
+    if (interaction.isButton()) await interaction.deferUpdate();
+    else await interaction.deferReply({ ephemeral: true });
+  } catch (err) {
+    console.warn('[cola] No pude confirmar la interacción:', err.message);
+  }
+}
+
+// Mensaje privado para quien tocó el botón / usó el comando.
+async function tell(interaction, payload) {
+  try {
+    if (interaction.isButton()) return await interaction.followUp({ ...payload, ephemeral: true });
+    return await interaction.editReply(payload);
+  } catch (err) {
+    return null;
+  }
+}
+
+// Le pone el rol de temporada a quien se une, sin trabar la cola. Trabaja
+// sobre su propia copia y después solo copia los 2 campos que toca, para no
+// pisar nada de lo que pasó mientras Discord ponía el rol.
+async function tagSeasonSafe(guild, guildId, userId) {
+  try {
+    const gd = getGuild(guildId);
+    await tagSeasonParticipant(guild, gd, userId);
+    const fresh = getGuild(guildId);
+    fresh.seasonParticipants = { ...(fresh.seasonParticipants || {}), ...(gd.seasonParticipants || {}) };
+    if (gd.seasonDividerRoleId) fresh.seasonDividerRoleId = gd.seasonDividerRoleId;
+    saveGuild(guildId, fresh);
+  } catch (err) {
+    console.warn('[cola] No pude poner el rol de temporada:', err.message);
+  }
+}
+
+// Arranca el draft de la cola si ya hay jugadores de sobra. startDraft
+// vuelve a comprobarlo por dentro, así que aunque lo llamen dos a la vez
+// solo se crea UNA partida.
+async function maybeStartDraft(client, guildId, modeKey) {
+  const guildData = getGuild(guildId);
+  if (modeKey) {
+    const mode = guildData.modes[modeKey];
+    if (!mode) return;
+    return startDraft(client, guildId, {
+      modeKey,
+      teamsCount: mode.teams,
+      playersPerTeam: mode.playersPerTeam,
+      pickSystem: mode.pickSystem
+    });
+  }
+  return startDraft(client, guildId);
+}
+
+// Unirse a la cola. Sirve para el botón "Unirse", el botón de cada modo y el
+// comando /queue. Los que se unen al mismo tiempo se atienden DE UNO EN UNO
+// (en orden de llegada): cada uno revisa la cola ya con los anteriores
+// adentro, así nunca se crean 2 colas ni se pierde a nadie.
+// (El 3er parámetro se ignora a propósito: los datos se leen frescos adentro.)
+async function joinQueue(client, interaction, _staleGuildData, modeKey = null) {
+  await ackInteraction(interaction);
+  const guildId = interaction.guildId;
   const userId = interaction.user.id;
-  const store = getStore(guildData, modeKey);
 
-  if (store.queue.some(q => q.userId === userId)) {
-    return interaction.reply({ embeds: [errorEmbed('Ya estás en la cola.')], ephemeral: true });
-  }
-  const ban = guildData.bans[userId];
-  const bannedHere = ban && (!ban.until || ban.until > Date.now()) &&
-    (ban.mode === 'all' || !ban.mode || ban.mode === (modeKey || 'default'));
-  if (bannedHere) {
-    return interaction.reply({ embeds: [errorEmbed('Estás baneado en esta cola y no puedes unirte.')], ephemeral: true });
-  }
+  const outcome = await withLock(`join:${timerBucketKey(guildId, modeKey)}`, async () => {
+    const guildData = getGuild(guildId);
+    const store = getStore(guildData, modeKey);
+    if (!store) return { error: 'Esa cola ya no existe.' };
 
-  const blocking = findQueueBlockingGame(guildData, userId, modeKey);
-  if (blocking) {
-    const blockingNumber = blocking.game.number ?? blocking.game.id;
-    const msg = blocking.reason === 'drafting'
-      ? `Todavía estás en el draft de la Game n°${blockingNumber}. Espera a que termine de armarse el equipo.`
-      : `Antes de volver a unirte a la cola debes votar el resultado de tu Game n°${blockingNumber}.`;
-    return interaction.reply({ embeds: [errorEmbed(msg)], ephemeral: true });
-  }
-
-  // El límite de jugadores del plan (Free/Basic/Pro) es GLOBAL al servidor
-  // (no por modo) y se mide con knownPlayerIds — quién se unió alguna vez a
-  // CUALQUIER cola — para que no se pueda esquivar creando modos nuevos.
-  // El elo en sí ahora SÍ es independiente por modo (ver más abajo).
-  const isNewPlayer = !guildData.knownPlayerIds[userId];
-  if (isNewPlayer) {
-    const { getLimits, vipPromoEmbed } = require('../utils/vip');
-    const limits = getLimits(guildData);
-    const currentTotal = Object.keys(guildData.knownPlayerIds).length;
-    if (currentTotal >= limits.maxPlayers) {
-      if (!guildData.vip.limitAlerted) {
-        guildData.vip.limitAlerted = true;
-        saveGuild(interaction.guildId, guildData);
-        const channelId = getQueueChannelId(guildData, modeKey);
-        const channel = await client.channels.fetch(channelId).catch(() => null);
-        if (channel) await channel.send({ embeds: [vipPromoEmbed(guildData)] }).catch(() => null);
-      }
-      return interaction.reply({
-        embeds: [errorEmbed(
-          `Este servidor llegó al límite de **${limits.maxPlayers} jugadores** de su plan (${limits.label}). ` +
-          `Como todavía no estás registrado, no podés unirte hasta que el servidor compre VIP para ampliar el cupo. Hablá con un administrador.`
-        )],
-        ephemeral: true
-      });
+    if (store.queue.some(q => q.userId === userId)) {
+      return { error: 'Ya estás en la cola.' };
     }
-    guildData.knownPlayerIds[userId] = true;
+    const ban = guildData.bans[userId];
+    const bannedHere = ban && (!ban.until || ban.until > Date.now()) &&
+      (ban.mode === 'all' || !ban.mode || ban.mode === (modeKey || 'default'));
+    if (bannedHere) {
+      return { error: 'Estás baneado en esta cola y no puedes unirte.' };
+    }
+
+    const blocking = findQueueBlockingGame(guildData, userId, modeKey);
+    if (blocking) {
+      const blockingNumber = blocking.game.number ?? blocking.game.id;
+      return {
+        error: blocking.reason === 'drafting'
+          ? `Todavía estás en el draft de la Game n°${blockingNumber}. Espera a que termine de armarse el equipo.`
+          : `Antes de volver a unirte a la cola debes votar el resultado de tu Game n°${blockingNumber}.`
+      };
+    }
+
+    // El límite de jugadores del plan (Free/Basic/Pro) es GLOBAL al servidor
+    // (no por modo) y se mide con knownPlayerIds — quién se unió alguna vez a
+    // CUALQUIER cola — para que no se pueda esquivar creando modos nuevos.
+    const isNewPlayer = !guildData.knownPlayerIds[userId];
+    if (isNewPlayer) {
+      const { getLimits } = require('../utils/vip');
+      const limits = getLimits(guildData);
+      const currentTotal = Object.keys(guildData.knownPlayerIds).length;
+      if (currentTotal >= limits.maxPlayers) {
+        const firstAlert = !guildData.vip.limitAlerted;
+        if (firstAlert) {
+          guildData.vip.limitAlerted = true;
+          saveGuild(guildId, guildData);
+        }
+        return {
+          error:
+            `Este servidor llegó al límite de **${limits.maxPlayers} jugadores** de su plan (${limits.label}). ` +
+            `Como todavía no estás registrado, no podés unirte hasta que el servidor compre VIP para ampliar el cupo. Hablá con un administrador.`,
+          vipPromo: firstAlert
+        };
+      }
+      guildData.knownPlayerIds[userId] = true;
+    }
+
+    // El elo/nombre/racha de este jugador vive en la economía de ESTA cola —
+    // si es un modo, es 100% independiente del elo que tenga en la cola de
+    // siempre o en cualquier otro modo. El nombre sí es común: si ya se puso
+    // un nombre con /rename en cualquier otra cola, arranca con ese en vez de
+    // su apodo de Discord, para que se vea igual en todos lados.
+    const fallbackName = guildData.preferredNames?.[userId] ||
+      interaction.member?.nickname || interaction.user.globalName || interaction.user.username;
+    getOrCreatePlayer(store, userId, fallbackName);
+    healPlayerName(store, userId, fallbackName);
+    store.queue.push({ userId, joinedAt: Date.now() });
+    saveGuild(guildId, guildData);
+
+    return {
+      ok: true,
+      shouldStart: store.queue.length >= getTotalPlayers(guildData, modeKey),
+      modeLabel: modeKey ? guildData.modes[modeKey].name : 'la cola por defecto',
+      season: guildData.season || 1 // la temporada es una sola, compartida por todas las colas
+    };
+  });
+
+  if (!outcome.ok) {
+    await tell(interaction, { embeds: [errorEmbed(outcome.error)] });
+    if (outcome.vipPromo) {
+      const { vipPromoEmbed } = require('../utils/vip');
+      const gd = getGuild(guildId);
+      const channel = await client.channels.fetch(getQueueChannelId(gd, modeKey)).catch(() => null);
+      if (channel) await channel.send({ embeds: [vipPromoEmbed(gd)] }).catch(() => null);
+    }
+    return;
   }
 
-  // El elo/nombre/racha de este jugador vive en la economía de ESTA cola —
-  // si es un modo, es 100% independiente del elo que tenga en la cola de
-  // siempre o en cualquier otro modo. El nombre sí es común: si ya se puso
-  // un nombre con /rename en cualquier otra cola, arranca con ese en vez de
-  // su apodo de Discord, para que se vea igual en todos lados.
-  const fallbackName = guildData.preferredNames?.[userId] ||
-    interaction.member?.nickname || interaction.user.globalName || interaction.user.username;
-  getOrCreatePlayer(store, userId, fallbackName);
-  healPlayerName(store, userId, fallbackName);
-  store.queue.push({ userId, joinedAt: Date.now() });
-  saveGuild(interaction.guildId, guildData);
-  armTimer(client, interaction.guildId, interaction.channel, userId, modeKey);
+  armTimer(client, guildId, interaction.channel, userId, modeKey);
 
-  // Le pone el rol de la temporada actual — solo a quien se une. Si nunca
-  // se une, nunca lo tiene.
-  await tagSeasonParticipant(interaction.guild, guildData, userId).catch(() => {});
-  saveGuild(interaction.guildId, guildData);
+  // Le pone el rol de la temporada actual — solo a quien se une. Va aparte
+  // para no hacer esperar a los demás.
+  tagSeasonSafe(interaction.guild, guildId, userId);
 
-  await interaction.deferUpdate();
-  await refreshQueueMessage(client, interaction.guildId, `🟢 <@${userId}> se unió a la cola <t:${Math.floor(Date.now() / 1000)}:R>`, false, modeKey);
+  await refreshQueueMessage(client, guildId, `🟢 <@${userId}> se unió a la cola <t:${Math.floor(Date.now() / 1000)}:R>`, false, modeKey);
 
   // Confirmación privada (solo la ve quien tocó el botón) con en qué cola y
   // temporada quedó anotado — para que sepa a qué le va a contar el logro
   // que vaya consiguiendo, sobre todo si el server tiene varias colas.
-  const modeLabel = modeKey ? guildData.modes[modeKey].name : 'la cola por defecto';
-  const season = guildData.season || 1; // la temporada es una sola, compartida por todas las colas
-  await interaction.followUp({
-    content: `✅ Te uniste a **${modeLabel}** — Temporada ${season}.`,
-    ephemeral: true
-  }).catch(() => {});
+  await tell(interaction, { content: `✅ Te uniste a **${outcome.modeLabel}** — Temporada ${outcome.season}.` });
 
-  const totalNeeded = getTotalPlayers(guildData, modeKey);
-  if (store.queue.length >= totalNeeded) {
-    if (modeKey) {
-      const mode = guildData.modes[modeKey];
-      await startDraft(client, interaction.guildId, {
-        modeKey,
-        teamsCount: mode.teams,
-        playersPerTeam: mode.playersPerTeam,
-        pickSystem: mode.pickSystem
-      });
-    } else {
-      await startDraft(client, interaction.guildId);
-    }
-  }
+  if (outcome.shouldStart) await maybeStartDraft(client, guildId, modeKey);
 }
 
-async function leaveQueue(client, interaction, guildData, modeKey = null) {
+// Salir de la cola: botón "Salir" (de la cola o de un modo) y comando /salir.
+async function leaveQueue(client, interaction, _staleGuildData, modeKey = null) {
+  await ackInteraction(interaction);
+  const guildId = interaction.guildId;
   const userId = interaction.user.id;
-  const store = getStore(guildData, modeKey);
-  if (!store.queue.some(q => q.userId === userId)) {
-    return interaction.reply({ embeds: [errorEmbed('No estás en la cola.')], ephemeral: true });
-  }
-  store.queue = store.queue.filter(q => q.userId !== userId);
-  saveGuild(interaction.guildId, guildData);
-  clearTimer(interaction.guildId, userId, modeKey);
 
-  await interaction.deferUpdate();
-  await refreshQueueMessage(client, interaction.guildId, `🔴 <@${userId}> salió de la cola <t:${Math.floor(Date.now() / 1000)}:R>`, false, modeKey);
+  const result = await withLock(`join:${timerBucketKey(guildId, modeKey)}`, async () => {
+    const guildData = getGuild(guildId);
+    const store = getStore(guildData, modeKey);
+    if (!store) return { error: 'Esa cola ya no existe.' };
+    if (!store.queue.some(q => q.userId === userId)) return { error: 'No estás en la cola.' };
+    store.queue = store.queue.filter(q => q.userId !== userId);
+    saveGuild(guildId, guildData);
+    return { ok: true };
+  });
+
+  if (!result.ok) {
+    await tell(interaction, { embeds: [errorEmbed(result.error)] });
+    return;
+  }
+
+  clearTimer(guildId, userId, modeKey);
+  await refreshQueueMessage(client, guildId, `🔴 <@${userId}> salió de la cola <t:${Math.floor(Date.now() / 1000)}:R>`, false, modeKey);
+  // Con el botón no hace falta avisar (se ve en el mensaje); con /salir sí.
+  if (!interaction.isButton()) await tell(interaction, { content: '👋 Saliste de la cola.' });
 }
 
 async function refreshOwnTimer(client, interaction, guildData, modeKey = null) {
@@ -303,5 +407,5 @@ async function resetQueue(client, guildId, modeKey) {
 
 module.exports = {
   joinQueue, leaveQueue, refreshOwnTimer, bumpQueue, bumpQueueCommand,
-  refreshQueueMessage, armTimer, clearTimer, resolveModeFromChannel, countActiveGames, resetQueue
+  refreshQueueMessage, armTimer, clearTimer, resolveModeFromChannel, countActiveGames, resetQueue, maybeStartDraft
 };
