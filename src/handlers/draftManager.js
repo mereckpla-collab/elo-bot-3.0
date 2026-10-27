@@ -1,7 +1,7 @@
 const { getGuild, saveGuild } = require('../database');
 const { displayName } = require('../utils/names');
 const { draftContainer, draftButtons, errorEmbed } = require('../utils/embeds');
-const { QUEUE_SIZE, AFK_CAPTAIN_COOLDOWN_MS } = require('../config');
+const { QUEUE_SIZE } = require('../config');
 const { getPickTimeoutMs } = require('../utils/modeTimers');
 const { scheduleThreadDeletion } = require('../utils/threadCleanup');
 
@@ -157,12 +157,17 @@ async function startDraft(client, guildId, options = {}) {
   if (modeKey && !store.queue) store.queue = [];
   const queueChannelId = modeKey ? store.channelId : guildData.channels.queue;
 
+  // Guarda anti-duplicados: si la cola ya no tiene los jugadores necesarios
+  // (porque otro aviso simultáneo ya armó la partida y se llevó a esos
+  // jugadores), no se hace nada. Esto evita que se creen 2 drafts a la vez.
+  if (store.queue.length < totalPlayers) return;
+
   const players = store.queue.slice(0, totalPlayers).map(q => q.userId);
 
   // Los jugadores en captainBlacklist nunca son elegidos como capitanes
   // (pero sí pueden ser pickeados normalmente como jugadores). Un ban
-  // manual (/captainban) no vence nunca; el que se pone solo (AFK al
-  // pickear) trae una fecha "until" y deja de aplicar una vez pasada.
+  // manual (/captainban) no vence nunca. Ya NO existe el ban automático por
+  // quedarse AFK al pickear.
   //
   // Este ban se respeta SIEMPRE: si entre los primeros de la cola no hay
   // suficientes jugadores elegibles para cubrir todos los capitanes, el
@@ -174,7 +179,8 @@ async function startDraft(client, guildId, options = {}) {
   const isBlacklisted = id => {
     const b = blacklist[id];
     if (!b) return false;
-    if (b.until && b.until <= now) return false; // el enfriamiento automático ya venció
+    if (b.auto) return false; // el ban automático por AFK ya no existe: los que quedaron de antes se ignoran
+    if (b.until && b.until <= now) return false;
     if (b.mode && b.mode !== 'all' && b.mode !== (modeKey || 'default')) return false; // baneado en OTRO modo, no en este
     return true;
   };
@@ -350,11 +356,8 @@ function clearPickTimer(guildId, gameId) {
  * Se dispara cuando un capitán no pickea a tiempo: se lo saca de la
  * partida entera (no solo se salta su turno), los demás jugadores de esa
  * Game vuelven a la cola (adelante de todos), y si con eso la cola ya
- * llega al cupo completo, arranca un draft nuevo al toque. Además, el
- * capitán AFK queda temporalmente en la black captains list — sigue
- * pudiendo jugar y ser pickeado normal, pero no vuelve a salir sorteado
- * como capitán hasta que pase el enfriamiento (antes esto no pasaba
- * nunca: quedarse AFK no tenía ninguna consecuencia real).
+ * llega al cupo completo, arranca un draft nuevo al toque. El capitán AFK
+ * ya NO recibe ningún ban de capitán por esto.
  */
 async function handlePickTimeout(client, guildId, gameId) {
   const guildData = getGuild(guildId);
@@ -378,21 +381,6 @@ async function handlePickTimeout(client, guildId, gameId) {
   guildData.reusableGameIds.push(gameId);
   releaseGameNumber(guildData, game.modeKey, game.number);
 
-  // Enfriamiento como capitán: no es un /captainban manual permanente, se
-  // vence solo después de AFK_CAPTAIN_COOLDOWN_MS. Si el admin YA lo tenía
-  // baneado a mano, eso no se toca (se deja el ban manual como estaba).
-  guildData.captainBlacklist = guildData.captainBlacklist || {};
-  if (!guildData.captainBlacklist[afkCaptainId]) {
-    guildData.captainBlacklist[afkCaptainId] = {
-      bannedBy: null,
-      reason: 'AFK al pickear (automático)',
-      bannedAt: Date.now(),
-      until: Date.now() + AFK_CAPTAIN_COOLDOWN_MS,
-      auto: true,
-      mode: game.modeKey || 'default'
-    };
-  }
-
   // Re-encolar a los otros, reiniciando su tiempo de inactividad en la cola
   // del modo correspondiente (o la cola de siempre, si es una game legacy).
   const store = game.modeKey ? guildData.modes[game.modeKey] : guildData;
@@ -404,7 +392,7 @@ async function handlePickTimeout(client, guildId, gameId) {
   const thread = await client.channels.fetch(game.threadId).catch(() => null);
   if (thread) {
     await thread.send({
-      content: `⏱️ **${afkName}** no pickeó a tiempo y quedó AFK. La Game n°${game.number} fue cancelada — los otros ${others.length} jugadores volvieron a la cola, y ${afkName} no podrá salir sorteado como capitán por un rato.`
+      content: `⏱️ **${afkName}** no pickeó a tiempo y quedó AFK. La Game n°${game.number} fue cancelada y los otros ${others.length} jugadores volvieron a la cola.`
     });
   }
   await scheduleThreadDeletion(client, game.threadId, `Game n°${game.number} cancelada por capitán AFK`);
