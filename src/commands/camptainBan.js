@@ -71,11 +71,10 @@ module.exports = {
 
     if (sub === 'show') {
       const now = Date.now();
-      // Los entries automáticos (AFK al pickear) que ya vencieron no
-      // aplican más — se muestran aparte para no mezclarlos con los bans
-      // manuales, que no vencen nunca.
+      // Solo se muestran los bans manuales (el ban automático por AFK ya no
+      // existe; los que hubieran quedado de antes se ignoran).
       const entries = Object.entries(store.captainBlacklist)
-        .filter(([, b]) => !(b.until && b.until <= now));
+        .filter(([, b]) => !b.auto && !(b.until && b.until <= now)); // los bans automáticos por AFK ya no existen
       const embed = new EmbedBuilder().setColor(COLOR_WARN).setTitle(`🚫 Black Captains List — ${resolved.label}`);
       if (!entries.length) {
         embed.setDescription('No hay jugadores en la lista negra de capitanes de esta cola.');
